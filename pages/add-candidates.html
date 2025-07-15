@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Candidate | Admin</title>
+  <link rel="stylesheet" href="../styles/add-candidate.css" />
+</head>
+<body>
+  <div class="dashboard">
+    <!-- sidebar -->
+    <aside class="sidebar">
+      <h2 class="logo">VotingSys</h2>
+      <nav>
+        <a href="./dashboard.html">Dashboard</a>
+        <a href="./add-candidate.html" class="active">Add Candidates</a>
+        <a href="./vote.html">Vote</a>
+        <a href="./results.html">Results</a>
+        <a href="#">Logout</a>
+      </nav>
+    </aside>
+
+    <!-- main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <h1>Add Candidate</h1>
+        <p>Fill out the form below to register a new candidate.</p>
+      </header>
+
+      <section class="form-section">
+        <form action="save-candidate.php" method="POST" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="candidate_name">Full Name</label>
+            <input type="text" name="candidate_name" id="candidate_name" required />
+          </div>
+
+          <!-- get nalang tayo by id dito -->
+          <div class="form-group">
+            <label for="position">Position</label>
+            <select name="position" id="position" required>
+              <option value="">Select a Position</option>
+              <option value="President">President</option>
+              <option value="Vice President">Vice President</option>
+              <option value="Secretary">Secretary</option>
+              <option value="Treasurer">Treasurer</option>
+              <option value="Auditor">Auditor</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="platform">Platform/Advocacy</label>
+            <textarea name="platform" id="platform" rows="4" required></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="photo">Upload Image</label>
+            <input type="file" name="photo" id="photo" accept="image/*" required />
+          </div>
+
+          <button type="submit" class="submit-btn">Add Candidate</button>
+        </form>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
