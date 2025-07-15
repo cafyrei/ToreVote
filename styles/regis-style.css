@@ -109,3 +109,14 @@ button:hover {
     flex-direction: column;
   }
 }
+
+.error {
+  color: red;
+  margin: 0;
+  font-size: 0.9em;
+  margin-bottom: 4px;
+  background-color: #ffe6e6;
+  padding: 4px 8px;
+  border: 1px solid red;
+  border-radius: 4px;
+}

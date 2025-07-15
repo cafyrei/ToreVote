@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 * {
@@ -156,3 +157,163 @@ body {
     align-items: center;
   }
 }
+=======
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f1f5f9;
+}
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #1e3a8a;
+  color: white;
+  padding: 30px 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.sidebar nav a {
+  display: block;
+  color: #cbd5e1;
+  text-decoration: none;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.topbar h1 {
+  color: #1e293b;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.topbar p {
+  color: #475569;
+  margin-bottom: 30px;
+}
+
+/* Results Section */
+.results-section {
+  margin-bottom: 40px;
+}
+
+.position-title {
+  font-size: 20px;
+  color: #1e3a8a;
+  margin-bottom: 20px;
+  border-left: 5px solid #3b82f6;
+  padding-left: 12px;
+}
+
+.results-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.result-card {
+  display: flex;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 4px 12px #0000000d;
+  align-items: center;
+  gap: 20px;
+}
+
+.result-card img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #3b82f6;
+}
+
+.info {
+  flex: 1;
+}
+
+.info h3 {
+  color: #3b82f6;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.info p {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progress-bar .fill {
+  height: 100%;
+  background-color: #3b82f6;
+  text-align: right;
+  padding-right: 8px;
+  color: white;
+  font-size: 12px;
+  line-height: 20px;
+  border-radius: 10px;
+}
+
+/* Screen Manager */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .results-list {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+>>>>>>> master

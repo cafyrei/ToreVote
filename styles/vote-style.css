@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 * {
@@ -169,3 +170,176 @@ body {
     justify-content: center;
   }
 }
+=======
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f1f5f9;
+}
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #1e3a8a;
+  color: white;
+  padding: 30px 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.sidebar nav a {
+  display: block;
+  color: #cbd5e1;
+  text-decoration: none;
+  margin-bottom: 15px;
+  padding: 10px;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.sidebar nav a:hover,
+.sidebar nav a.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.topbar h1 {
+  color: #1e293b;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.topbar p {
+  color: #475569;
+  margin-bottom: 30px;
+}
+
+/* Vote Section */
+.vote-section {
+  margin-bottom: 40px;
+}
+
+.position-title {
+  font-size: 20px;
+  color: #1e3a8a;
+  margin-bottom: 20px;
+  border-left: 5px solid #3b82f6;
+  padding-left: 12px;
+}
+
+.candidate-list {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.candidate-card {
+  width: 240px;
+  background-color: rgb(255, 255, 255);
+  color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: 0.3s;
+  cursor: pointer;
+  box-shadow: 0 0 10px #d3d3d3;
+}
+
+.candidate-card input[type="radio"] {
+  display: none;
+}
+
+.card-content {
+  padding: 20px;
+  text-align: center;
+}
+
+.card-content img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border: 2px solid #3b82f6;
+}
+
+.card-content h3 {
+  color: #3b82f6;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.card-content p {
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+.candidate-card input:checked + .card-content {
+  background-color: #2563eb;
+  border-radius: 0 0 12px 12px;
+}
+
+.submit-container {
+  text-align: center;
+}
+
+.vote-btn {
+  padding: 14px 30px;
+  font-size: 16px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 20px;
+}
+
+.vote-btn:hover {
+  background-color: #2563eb;
+}
+
+/* Screen Manager */
+@media (max-width: 768px) {
+  .dashboard {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    text-align: center;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .candidate-list {
+    justify-content: center;
+  }
+}
+>>>>>>> master
