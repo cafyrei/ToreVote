@@ -1,6 +1,8 @@
 <?php
 include("../database/connection.php");
 
+/** @var mysqli $conn */
+
 // List of expected fields consider it null pag wala empty
 $fields = [
   "first_name" => "",
@@ -171,6 +173,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!empty($success_msg)): ?>
           <p class="success"><?= $success_msg ?></p>
         <?php endif; ?>
+
+
+        
 
       </form>
 

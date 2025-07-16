@@ -1,45 +1,48 @@
 <?php
 include("../database/connection.php");
 $message = "";
+/** @var mysqli $conn */
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = $_POST['candidate_name'];
-    $position = $_POST['position'];
-    $platform = $_POST['platform'];
+  $name = $_POST['candidate_name'];
+  $position = $_POST['position'];
+  $platform = $_POST['platform'];
 
-    $uploadDir = "../img/";
-    $photoName = uniqid() . '_' . basename($_FILES["photo"]["name"]);
-    $targetFile = $uploadDir . $photoName;
+  $uploadDir = "../img/";
+  $photoName = uniqid() . '_' . basename($_FILES["photo"]["name"]);
+  $targetFile = $uploadDir . $photoName;
 
-    if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFile)) {
-        $sql = "INSERT INTO candidates (candidate_name, position, platform, photo) VALUES (?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
+  if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFile)) {
+    $sql = "INSERT INTO candidates (candidate_name, position, platform, photo) VALUES (?, ?, ?, ?)";
+    $stmt = $conn->prepare($sql);
 
-        if (!$stmt) {
-            $message = "Prepare failed: " . $conn->error;
-        } else {
-            $stmt->bind_param("ssss", $name, $position, $platform, $photoName);
-
-            if ($stmt->execute()) {
-                $message = "✅ Candidate added successfully!";
-            } else {
-                $message = "❌ Execute failed: " . $stmt->error;
-            }
-        }
+    if (!$stmt) {
+      $message = "Prepare failed: " . $conn->error;
     } else {
-        $message = "❌ Error uploading image.";
+      $stmt->bind_param("ssss", $name, $position, $platform, $photoName);
+
+      if ($stmt->execute()) {
+        $message = "✅ Candidate added successfully!";
+      } else {
+        $message = "❌ Execute failed: " . $stmt->error;
+      }
     }
+  } else {
+    $message = "❌ Error uploading image.";
+  }
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add Candidate | Admin</title>
   <link rel="stylesheet" href="../styles/add-candidate.css" />
 </head>
+
 <body>
   <div class="dashboard">
     <!-- sidebar -->
@@ -49,7 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="./dashboard.php">Dashboard</a>
         <a href="./add-candidate.php" class="active">Add Candidates</a>
         <a href="./vote.php">Vote</a>
-        <a href="./results.php">Results</a>
         <a href="./logout.php" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
       </nav>
     </aside>
@@ -102,4 +104,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
   </div>
 </body>
+
 </html>

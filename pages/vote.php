@@ -1,11 +1,22 @@
+<?php
+session_start();
+include("../database/connection.php");
+/** @var mysqli $conn */
+?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vote | Voting System</title>
   <link rel="stylesheet" href="../styles/vote-style.css" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <body>
   <div class="dashboard">
     <!-- sidebar -->
@@ -15,9 +26,9 @@
         <a href="./dashboard.php">Dashboard</a>
         <a href="./add-candidates.php">Add candidates</a>
         <a href="./vote.php" class="active">Vote</a>
-        <a href="./results.php">Results</a>
-        <a href="#">Logout</a>
+        <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
+
     </aside>
     <!-- main -->
     <main class="main-content">
@@ -30,28 +41,40 @@
         <?php
         include("../database/connection.php");
 
-        $positions_result = mysqli_query($conn, "SELECT DISTINCT position FROM candidates ORDER BY FIELD(position, 'President', 'Vice President', 'Secretary', 'Treasurer', 'Auditor')");
+        $sql = "SELECT position
+                FROM candidates
+                GROUP BY position
+                ORDER BY
+                CASE position
+                  WHEN 'President' THEN 1
+                  WHEN 'Vice President' THEN 2
+                  WHEN 'Secretary' THEN 3
+                  WHEN 'Treasurer' THEN 4
+                  WHEN 'Auditor' THEN 5
+                END;
+              ";
+        $positions_result = mysqli_query($conn, $sql);
 
         while ($position_row = mysqli_fetch_assoc($positions_result)) {
-            $position = $position_row['position'];
-            $position_lower = strtolower(str_replace(' ', '_', $position));
+          $position = $position_row['position'];
+          $position_lower = strtolower(str_replace(' ', '_', $position));
 
-            echo "<section class='vote-section'>";
-            echo "<h2 class='position-title'>" . htmlspecialchars($position) . "</h2>";
-            echo "<div class='candidate-list'>";
+          echo "<section class='vote-section'>";
+          echo "<h2 class='position-title'>" . htmlspecialchars($position) . "</h2>";
+          echo "<div class='candidate-list'>";
 
-            $stmt = $conn->prepare("SELECT * FROM candidates WHERE position = ?");
-            $stmt->bind_param("s", $position);
-            $stmt->execute();
-            $candidates_result = $stmt->get_result();
+          $stmt = $conn->prepare("SELECT * FROM candidates WHERE position = ?");
+          $stmt->bind_param("s", $position);
+          $stmt->execute();
+          $candidates_result = $stmt->get_result();
 
-            while ($candidate = $candidates_result->fetch_assoc()) {
-                $name = htmlspecialchars($candidate['candidate_name']);
-                $platform = htmlspecialchars($candidate['platform']);
-                $photo = "../img/" . $candidate['photo'];
-                $id = $candidate['id_num'];
+          while ($candidate = $candidates_result->fetch_assoc()) {
+            $name = htmlspecialchars($candidate['candidate_name']);
+            $platform = htmlspecialchars($candidate['platform']);
+            $photo = "../img/" . $candidate['photo'];
+            $id = $candidate['id_num'];
 
-                echo "
+            echo "
                 <label class='candidate-card'>
                   <input type='radio' name='{$position_lower}' value='{$id}' required />
                   <div class='card-content'>
@@ -61,9 +84,9 @@
                   </div>
                 </label>
                 ";
-            }
+          }
 
-            echo "</div></section>";
+          echo "</div></section>";
         }
         ?>
 
@@ -73,5 +96,24 @@
       </form>
     </main>
   </div>
+
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to logout?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <a href="./logout.php" class="btn btn-primary">Yes, Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
+
 </html>
