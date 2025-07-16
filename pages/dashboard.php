@@ -32,7 +32,6 @@ $total_voters = $row['total_voters'];
 $votes_cast = $row['votes_cast'];
 $votes_remaining = $row['votes_remaining'];
 
-
 $sql = "SELECT position 
 FROM candidates 
 GROUP BY position 
@@ -83,6 +82,9 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
   <title>Voting Dashboard</title>
   <link rel="stylesheet" href="../styles/dashboard-style.css" />
   <link rel="stylesheet" href="../styles/results-style.css" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -92,9 +94,8 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
       <h2 class="logo">VotingSys</h2>
       <nav>
         <a href="#" class="active">Dashboard</a>
-        <a href="./vote.php">Vote</a>
+        <a <?php if ($hasVoted) { ?> data-bs-toggle="modal" data-bs-target="#exampleModal" href="./dashboard.php" <?php } ?> href="./vote.php">Vote</a>
         <a href="./logout.php" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
-
       </nav>
     </aside>
 
@@ -119,7 +120,6 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
           <p><?php echo $votes_remaining ?></p>
         </div>
       </section>
-
 
       <main class="result-content">
         <header class="topbar">
@@ -148,8 +148,24 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
             </div>
           </section>
         <?php endforeach; ?>
-
       </main>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Alert</h1>
+            </div>
+            <div class="modal-body">
+              You have already casted your vote
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div class="vote-now">
         <?php if (!$hasVoted) { ?>
@@ -158,8 +174,6 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
           <a href="./vote.php"><button>Go to Voting Page</button></a>
         <?php } else { ?>
           <h2>You have already casted your vote!</h2>
-          <p>See the results!</p>
-          <a href="./results.php"><button>Go to Results</button></a>
         <?php } ?>
         </section>
     </main>
