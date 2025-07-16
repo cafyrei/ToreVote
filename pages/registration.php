@@ -43,7 +43,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (!$errors) {
     $stmt = $conn->prepare("INSERT INTO `user_information`(`first_name`, `last_name`, `middle_name`, `gender`, `email`, `username`, `password`, `role`, `hasVoted`, `date_created`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-    $role = 'user';
+    
+    $admin_emails = ['admin@votingsys.com', 'admin@VTsyssite.com'];
+    $role = in_array($fields['email'], $admin_emails) ? 'admin' : 'user';
+
+    
+
     $stmt->bind_param(
       "sssssssss",
       $fields["first_name"],

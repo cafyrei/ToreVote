@@ -10,13 +10,19 @@ if (!isset($_SESSION['email'])) {
 
 $username = $_SESSION['username'];
 
-$sqlVoted = "SELECT hasVoted FROM user_information WHERE username = ?";
-$stmtVoted = $conn->prepare($sqlVoted);
-$stmtVoted->bind_param("s", $username);
-$stmtVoted->execute();
-$resultVoted = $stmtVoted->get_result();
-$userRow = $resultVoted->fetch_assoc();
-$hasVoted = $userRow['hasVoted'] ?? 0;
+$sqlVoted = "SELECT hasVoted, role FROM user_information WHERE username = ?";
+$stmt = $conn->prepare($sqlVoted);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+
+$result = $stmt->get_result();
+if ($userRow = $result->fetch_assoc()){
+  $hasVoted = $userRow['hasVoted'];
+  $role = $userRow['role'];
+} else {
+  echo "User not Found";
+  exit;
+}
 
 $sql = "SELECT
   COUNT(*) AS total_voters,
@@ -32,9 +38,16 @@ $total_voters = $row['total_voters'];
 $votes_cast = $row['votes_cast'];
 $votes_remaining = $row['votes_remaining'];
 
+$sql = "SELECT role FROM user_information WHERE username = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+
+$result = $stmt->get_result();
+
 $sql = "SELECT position 
 FROM candidates 
-GROUP BY position 
+GROUP BY position   
 ORDER BY 
   CASE position
     WHEN 'President' THEN 1
@@ -63,7 +76,6 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
     $candidate['vote_count'] = $vote;
     $candidates[] = $candidate;
   }
-
 
   $results_sections[] = [
     'position' => $position,
@@ -95,6 +107,9 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
       <nav>
         <a href="#" class="active">Dashboard</a>
         <a <?php if ($hasVoted) { ?> data-bs-toggle="modal" data-bs-target="#exampleModal" href="./dashboard.php" <?php } ?> href="./vote.php">Vote</a>
+        <?php if ($role === 'admin') : ?>
+          <a href="./add-candidates.php">Add Candidates</a>
+        <?php endif; ?>
         <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
     </aside>
@@ -197,6 +212,8 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
 
     </main>
   </div>
+
+
 </body>
 
 </html>
