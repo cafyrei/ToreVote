@@ -48,7 +48,7 @@
             while ($candidate = $candidates_result->fetch_assoc()) {
                 $name = htmlspecialchars($candidate['candidate_name']);
                 $platform = htmlspecialchars($candidate['platform']);
-                $photo = "../uploads/" . $candidate['photo'];
+                $photo = "../img/" . $candidate['photo'];
                 $id = $candidate['id_num'];
 
                 echo "

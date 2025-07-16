@@ -48,7 +48,6 @@ FROM user_information";
       <h2 class="logo">VotingSys</h2>
       <nav>
         <a href="#" class="active">Dashboard</a>
-        <!-- <a href="./vote.php" <?php if ($hasVoted) {?> onclick="return confirm('You have already casted your vote');" href="./dashboard.php" <?php } ?>>Vote</a> -->
         <a <?php if ($hasVoted) {?> onclick="return confirm('You have already casted your vote');" href="./dashboard.php" <?php } ?> href="./vote.php">Vote</a>
         <a href="./results.php">Results</a>
         <a href="./logout.php" onclick="return confirm('Are you sure you want to logout?');">Logout</a>

@@ -1,7 +1,7 @@
 <?php
 include("../database/connection.php");
 
-$sql = "SELECT position FROM candidates GROUP BY position";
+$sql = "SELECT DISTINCT position FROM candidates ORDER BY FIELD(position, 'President', 'Vice President', 'Secretary', 'Treasurer', 'Auditor')";
 $position_result = mysqli_query($conn, $sql);
 
 $results_sections = [];
@@ -82,9 +82,7 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
           </div>
         </section>
       <?php endforeach; ?>
-
     </main>
   </div>
 </body>
-
 </html>

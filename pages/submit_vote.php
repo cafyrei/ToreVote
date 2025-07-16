@@ -2,9 +2,9 @@
 session_start();
 include("../database/connection.php");
 
-$user_id = $_SESSION['user_id'] ?? null;
+$username = $_SESSION['username'] ?? null;
 
-if (!$user_id) {
+if (!$username) {
   header("Location: login.php");
   exit();
 }
@@ -12,8 +12,8 @@ if (!$user_id) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   foreach ($_POST as $position => $candidate_id) {
     // Check if user already voted for this position
-    $check = $conn->prepare("SELECT * FROM votes WHERE user_id = ? AND position = ?");
-    $check->bind_param("is", $user_id, $position);
+    $check = $conn->prepare("SELECT * FROM votes WHERE username = ? AND position = ?");
+    $check->bind_param("ss", $username, $position);
     $check->execute();
     $result = $check->get_result();
 
