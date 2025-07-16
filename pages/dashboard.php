@@ -10,13 +10,19 @@ if (!isset($_SESSION['email'])) {
 
 $username = $_SESSION['username'];
 
-$sql = "SELECT COUNT(*) AS total_voters FROM user_information";
+$sql = "SELECT
+  COUNT(*) AS total_voters,
+  COUNT(CASE WHEN hasVoted = 1 THEN 1 END) AS votes_cast,
+  COUNT(CASE WHEN hasVoted = 0 THEN 1 END) AS votes_remaining
+FROM user_information";
 
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $result = $stmt->get_result();
     $row = $result->fetch_assoc();
-    $total = $row['total_voters'];
+    $total_voters = $row['total_voters'];
+    $votes_cast = $row['votes_cast'];
+    $votes_remaining = $row['votes_remaining'];
 
 ?>
 <!DOCTYPE html>
@@ -36,7 +42,7 @@ $sql = "SELECT COUNT(*) AS total_voters FROM user_information";
         <a href="#" class="active">Dashboard</a>
         <a href="./vote.php">Vote</a>
         <a href="./results.html">Results</a>
-        <a href="./logout.php">Logout</a>
+        <a href="./logout.php" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
       </nav>
     </aside>
 
@@ -50,17 +56,17 @@ $sql = "SELECT COUNT(*) AS total_voters FROM user_information";
       <section class="cards">
         <div class="card">
           <h3>Total Voters</h3>
-          <p><?php echo $total ?></p>
+          <p><?php echo $total_voters ?></p>
         </div>
         <div class="card">
           <h3>Votes Cast</h3>
           <!-- Adjust nyo to pre sa PHP  -->
-          <p>890</p>
+          <p><?php echo $votes_cast ?></p>
         </div>
         <div class="card">
           <h3>Remaining</h3>
           <!-- Adjust nyo to pre Pa PHP -->
-          <p>134</p>
+          <p><?php echo $votes_remaining ?></p>
         </div>
       </section>
 
