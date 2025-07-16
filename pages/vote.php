@@ -24,7 +24,6 @@ include("../database/connection.php");
       <h2 class="logo">VotingSys</h2>
       <nav>
         <a href="./dashboard.php">Dashboard</a>
-        <a href="./add-candidates.php">Add candidates</a>
         <a href="./vote.php" class="active">Vote</a>
         <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
