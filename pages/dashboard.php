@@ -1,3 +1,24 @@
+<?php
+session_start();
+include("../database/connection.php");
+/** @var mysqli $conn */
+
+if (!isset($_SESSION['email'])) {
+  header ('location: login.php');
+  exit();
+}
+
+$username = $_SESSION['username'];
+
+$sql = "SELECT COUNT(*) AS total_voters FROM user_information";
+
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $total = $row['total_voters'];
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,9 +34,9 @@
       <h2 class="logo">VotingSys</h2>
       <nav>
         <a href="#" class="active">Dashboard</a>
-        <a href="./vote.html">Vote</a>
+        <a href="./vote.php">Vote</a>
         <a href="./results.html">Results</a>
-        <a href="#">Logout</a>
+        <a href="./logout.php">Logout</a>
       </nav>
     </aside>
 
@@ -23,15 +44,13 @@
     <main class="main-content">
         <!-- Hatak dito pre moreon Variables -->
       <header class="topbar">
-        <!-- Gawin nyong variable name dito pre tas hatakin sa SQL -->
-        <h1>Welcome, User</h1>
+        <h1>Welcome, <?php echo $username ?></h1>
       </header>
 
       <section class="cards">
         <div class="card">
           <h3>Total Voters</h3>
-          <!-- Adjust nyo pre sa PHP -->
-          <p>1,024</p>
+          <p><?php echo $total ?></p>
         </div>
         <div class="card">
           <h3>Votes Cast</h3>
@@ -41,14 +60,14 @@
         <div class="card">
           <h3>Remaining</h3>
           <!-- Adjust nyo to pre Pa PHP -->
-          <p>134</p> 
+          <p>134</p>
         </div>
       </section>
 
       <section class="vote-now">
         <h2>Ready to vote?</h2>
         <p>Select your candidate from the list and click submit.</p>
-        <button>Go to Voting Page</button>
+        <a href="./vote.php"><button>Go to Voting Page</button></a>
       </section>
     </main>
   </div>

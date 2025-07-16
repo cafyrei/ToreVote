@@ -10,7 +10,7 @@ $login_err = '';
     $email = $_POST['email'];
     $pass = $_POST['password'];
 
-    $sql = "SELECT id_number, email, password FROM user_information WHERE email = ?";
+    $sql = "SELECT id_number, email, password, username FROM user_information WHERE email = ?";
     
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
@@ -20,6 +20,7 @@ $login_err = '';
 
     if ($row && password_verify($pass, $row['password'])) {
       $_SESSION['email'] = $row['email'];
+      $_SESSION['username'] = $row['username'];
       header('Location: dashboard.php');
       exit();
     } else {
