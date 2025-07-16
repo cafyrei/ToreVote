@@ -14,6 +14,7 @@ $fields = [
 ];
 
 $errors = [];
+$registration_successful = false;
 
 foreach ($fields as $key => $_) {
   $fields[$key] = trim($_POST[$key] ?? '');
@@ -55,8 +56,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
       $success_msg = "Account Successfully Created";
       $fields = array_map(fn() => '', $fields);
+      $registration_successful = true;
     } else {
       $errors['db'] = "Database error: " . $stmt->error;
+    }
+
+    if ($registration_successful) {
+      session_start();
+      session_regenerate_id(true);
+
+      $_SESSION["username"] = $fields["username"];
+      $_SESSION["role"] = $role;
+
+
+      header('Location : dashboard.php');
+      exit();
     }
 
     $stmt->close();

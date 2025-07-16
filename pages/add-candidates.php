@@ -1,3 +1,37 @@
+<?php
+include("../database/connection.php");
+$message = "";
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $name = $_POST['candidate_name'];
+    $position = $_POST['position'];
+    $platform = $_POST['platform'];
+
+    $uploadDir = "../img/";
+    $photoName = uniqid() . '_' . basename($_FILES["photo"]["name"]);
+    $targetFile = $uploadDir . $photoName;
+
+    if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFile)) {
+        $sql = "INSERT INTO candidates (candidate_name, position, platform, photo) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+
+        if (!$stmt) {
+            $message = "Prepare failed: " . $conn->error;
+        } else {
+            $stmt->bind_param("ssss", $name, $position, $platform, $photoName);
+
+            if ($stmt->execute()) {
+                $message = "✅ Candidate added successfully!";
+            } else {
+                $message = "❌ Execute failed: " . $stmt->error;
+            }
+        }
+    } else {
+        $message = "❌ Error uploading image.";
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,11 +46,11 @@
     <aside class="sidebar">
       <h2 class="logo">VotingSys</h2>
       <nav>
-        <a href="./dashboard.html">Dashboard</a>
-        <a href="./add-candidate.html" class="active">Add Candidates</a>
+        <a href="./dashboard.php">Dashboard</a>
+        <a href="./add-candidate.php" class="active">Add Candidates</a>
         <a href="./vote.html">Vote</a>
         <a href="./results.html">Results</a>
-        <a href="#">Logout</a>
+        <a href="./logout.php">Logout</a>
       </nav>
     </aside>
 
@@ -25,10 +59,15 @@
       <header class="topbar">
         <h1>Add Candidate</h1>
         <p>Fill out the form below to register a new candidate.</p>
+              
+        <?php if (!empty($message)): ?>
+          <div class="alert"><?= htmlspecialchars($message); ?></div>
+        <?php endif; ?>
+
       </header>
 
       <section class="form-section">
-        <form action="save-candidate.php" method="POST" enctype="multipart/form-data">
+        <form action="" method="POST" enctype="multipart/form-data">
           <div class="form-group">
             <label for="candidate_name">Full Name</label>
             <input type="text" name="candidate_name" id="candidate_name" required />
