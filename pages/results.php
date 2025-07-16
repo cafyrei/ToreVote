@@ -1,4 +1,4 @@
-<?php 
+<?php
 include("../database/connection.php");
 
 $sql = "SELECT position FROM candidates GROUP BY position";
@@ -6,7 +6,7 @@ $position_result = mysqli_query($conn, $sql);
 
 $results_sections = [];
 
-while($position_row = mysqli_fetch_assoc($position_result)) {
+while ($position_row = mysqli_fetch_assoc($position_result)) {
   $position = $position_row['position'];
 
   $candidates_sql = "SELECT * FROM candidates WHERE position = '$position'";
@@ -20,7 +20,7 @@ while($position_row = mysqli_fetch_assoc($position_result)) {
     $total_votes += $vote;
     $candidate['vote_count'] = $vote;
     $candidates[] = $candidate;
-}
+  }
 
 
   $results_sections[] = [
@@ -33,12 +33,14 @@ while($position_row = mysqli_fetch_assoc($position_result)) {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Results | Voting System</title>
   <link rel="stylesheet" href="../styles/results-style.css" />
 </head>
+
 <body>
   <div class="dashboard">
     <!-- sidebar -->
@@ -63,7 +65,7 @@ while($position_row = mysqli_fetch_assoc($position_result)) {
         <section class="results-section">
           <h2 class="position-title"><?= htmlspecialchars($section['position']) ?></h2>
           <div class="results-list">
-            <?php foreach ($section['candidates'] as $c): 
+            <?php foreach ($section['candidates'] as $c):
               $percentage = $section['total_votes'] > 0 ? round(($c['vote_count'] / $section['total_votes']) * 100) : 0;
             ?>
               <div class="result-card">
@@ -84,4 +86,5 @@ while($position_row = mysqli_fetch_assoc($position_result)) {
     </main>
   </div>
 </body>
+
 </html>
