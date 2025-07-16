@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   if (!$errors) {
-    $stmt = $conn->prepare("INSERT INTO `user_information`(`first_name`, `last_name`, `middle_name`, `gender`, `email`, `usermame`, `password`, `role`, `date_created`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+    $stmt = $conn->prepare("INSERT INTO `user_information`(`first_name`, `last_name`, `middle_name`, `gender`, `email`, `username`, `password`, `role`, `date_created`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
     $role = 'user';
     $stmt->bind_param(
       "ssssssss",
