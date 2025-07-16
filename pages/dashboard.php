@@ -95,13 +95,14 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
       <nav>
         <a href="#" class="active">Dashboard</a>
         <a <?php if ($hasVoted) { ?> data-bs-toggle="modal" data-bs-target="#exampleModal" href="./dashboard.php" <?php } ?> href="./vote.php">Vote</a>
-        <a href="./logout.php" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
+        <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
     </aside>
 
     <!-- main -->
     <main class="main-content">
-      <!-- Hatak dito pre moreon Variables -->
+
+
       <header class="topbar">
         <h1>Welcome, <?php echo $username ?></h1>
       </header>
@@ -175,7 +176,25 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
         <?php } else { ?>
           <h2>You have already casted your vote!</h2>
         <?php } ?>
-        </section>
+      </div>
+
+      <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <a href="./logout.php" class="btn btn-primary">Yes, Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 </body>

@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vote | Voting System</title>
   <link rel="stylesheet" href="../styles/vote-style.css" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -17,11 +20,9 @@
         <a href="./dashboard.php">Dashboard</a>
         <a href="./add-candidates.php">Add candidates</a>
         <a href="./vote.php" class="active">Vote</a>
-        <a href="#">Logout</a>
-
-
-        <a href=""></a>
+        <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
+
     </aside>
     <!-- main -->
     <main class="main-content">
@@ -77,6 +78,24 @@
       </form>
     </main>
   </div>
+
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to logout?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <a href="./logout.php" class="btn btn-primary">Yes, Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 
 </html>
