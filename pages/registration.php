@@ -62,6 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       session_regenerate_id(true);
 
       $_SESSION["username"] = $fields["username"];
+      $_SESSION["hasVoted"] = $hasVoted;
       $_SESSION["role"] = $role;
 
       $fields = array_map(fn() => '', $fields);

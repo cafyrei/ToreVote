@@ -48,9 +48,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <nav>
         <a href="./dashboard.php">Dashboard</a>
         <a href="./add-candidate.php" class="active">Add Candidates</a>
-        <a href="./vote.html">Vote</a>
-        <a href="./results.html">Results</a>
-        <a href="./logout.php">Logout</a>
+        <a href="./vote.php">Vote</a>
+        <a href="./results.php">Results</a>
+        <a href="./logout.php" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
       </nav>
     </aside>
 
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <header class="topbar">
         <h1>Add Candidate</h1>
         <p>Fill out the form below to register a new candidate.</p>
-              
+
         <?php if (!empty($message)): ?>
           <div class="alert"><?= htmlspecialchars($message); ?></div>
         <?php endif; ?>

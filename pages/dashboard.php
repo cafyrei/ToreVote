@@ -10,6 +10,14 @@ if (!isset($_SESSION['email'])) {
 
 $username = $_SESSION['username'];
 
+$sqlVoted = "SELECT hasVoted FROM user_information WHERE username = ?";
+$stmtVoted = $conn->prepare($sqlVoted);
+$stmtVoted->bind_param("s", $username);
+$stmtVoted->execute();
+$resultVoted = $stmtVoted->get_result();
+$userRow = $resultVoted->fetch_assoc();
+$hasVoted = $userRow['hasVoted'] ?? 0;
+
 $sql = "SELECT
   COUNT(*) AS total_voters,
   COUNT(CASE WHEN hasVoted = 1 THEN 1 END) AS votes_cast,
@@ -41,8 +49,9 @@ FROM user_information";
       <nav>
         <a href="#" class="active">Dashboard</a>
         <a href="./vote.php">Vote</a>
-        <a href="./results.html">Results</a>
+        <a href="./results.php">Results</a>
         <a href="./logout.php" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
+        
       </nav>
     </aside>
 
@@ -60,20 +69,24 @@ FROM user_information";
         </div>
         <div class="card">
           <h3>Votes Cast</h3>
-          <!-- Adjust nyo to pre sa PHP  -->
           <p><?php echo $votes_cast ?></p>
         </div>
         <div class="card">
           <h3>Remaining</h3>
-          <!-- Adjust nyo to pre Pa PHP -->
           <p><?php echo $votes_remaining ?></p>
         </div>
       </section>
 
-      <section class="vote-now">
-        <h2>Ready to vote?</h2>
-        <p>Select your candidate from the list and click submit.</p>
-        <a href="./vote.php"><button>Go to Voting Page</button></a>
+      <div class="vote-now">
+        <?php if (!$hasVoted) { ?>
+          <h2>Ready to vote?</h2>
+          <p>Select your candidate from the list and click submit.</p>
+          <a href="./vote.php"><button>Go to Voting Page</button></a>
+        <?php }  else { ?>
+          <h2>You have already casted your vote!</h2>
+          <p>See the results!</p>
+          <a href="./results.php"><button>Go to Results</button></a>
+        <?php } ?>
       </section>
     </main>
   </div>
