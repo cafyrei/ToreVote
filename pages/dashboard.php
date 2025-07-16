@@ -12,9 +12,9 @@
     <aside class="sidebar">
       <h2 class="logo">VotingSys</h2>
       <nav>
-        <a href="#" class="active">Dashboard</a>
-        <a href="./vote.html">Vote</a>
-        <a href="./results.html">Results</a>
+        <a href="./dashboard.php" class="active">Dashboard</a>
+        <a href="./vote.php">Vote</a>
+        <a href="./results.php">Results</a>
         <a href="#">Logout</a>
       </nav>
     </aside>

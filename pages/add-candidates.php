@@ -48,8 +48,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <nav>
         <a href="./dashboard.php">Dashboard</a>
         <a href="./add-candidate.php" class="active">Add Candidates</a>
-        <a href="./vote.html">Vote</a>
-        <a href="./results.html">Results</a>
+        <a href="./vote.php">Vote</a>
+        <a href="./results.php">Results</a>
         <a href="./logout.php">Logout</a>
       </nav>
     </aside>

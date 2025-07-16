@@ -47,8 +47,8 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
     <aside class="sidebar">
       <h2 class="logo">VotingSys</h2>
       <nav>
-        <a href="./dashboard.html">Dashboard</a>
-        <a href="./vote.html">Vote</a>
+        <a href="./dashboard.php">Dashboard</a>
+        <a href="./vote.php">Vote</a>
         <a href="./results.php" class="active">Results</a>
         <a href="#">Logout</a>
       </nav>
