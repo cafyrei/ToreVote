@@ -6,30 +6,33 @@ include("../database/connection.php");
 
 $login_err = '';
 
-  if (isset($_POST['btnLogin'])) {
-    $email = $_POST['email'];
-    $pass = $_POST['password'];
+if (isset($_POST['btnLogin'])) {
+  $email = $_POST['email'];
+  $pass = $_POST['password'];
 
-    $sql = "SELECT id_number, email, password FROM user_information WHERE email = ?";
-    
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $row = $result->fetch_assoc();
+  $sql = "SELECT id_number, email, password, username, hasVoted FROM user_information WHERE email = ?";
 
-    if ($row && password_verify($pass, $row['password'])) {
-      $_SESSION['email'] = $row['email'];
-      header('Location: dashboard.php');
-      exit();
-    } else {
-      $login_err = "Invalid Email or Password";
-    }
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $result = $stmt->get_result();
+  $row = $result->fetch_assoc();
+
+  if ($row && password_verify($pass, $row['password'])) {
+    $_SESSION['email'] = $row['email'];
+    $_SESSION['username'] = $row['username'];
+    $_SESSION['hasVoted'] = $row['hasVoted'];
+    header('Location: dashboard.php');
+    exit();
+  } else {
+    $login_err = "Invalid Email or Password";
   }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -56,5 +59,5 @@ $login_err = '';
     <p class="signup-link">Don't have an account? <a href="./registration.php">Sign up</a></p>
   </div>
 </body>
-</html>
 
+</html>

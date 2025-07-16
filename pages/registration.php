@@ -1,6 +1,8 @@
 <?php
 include("../database/connection.php");
 
+/** @var mysqli $conn */
+
 // List of expected fields consider it null pag wala empty
 $fields = [
   "first_name" => "",
@@ -14,7 +16,8 @@ $fields = [
 ];
 
 $errors = [];
-$registration_successful = false;
+
+$hasVoted = false;
 
 foreach ($fields as $key => $_) {
   $fields[$key] = trim($_POST[$key] ?? '');
@@ -39,10 +42,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   if (!$errors) {
-    $stmt = $conn->prepare("INSERT INTO `user_information`(`first_name`, `last_name`, `middle_name`, `gender`, `email`, `username`, `password`, `role`, `date_created`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())");
+    $stmt = $conn->prepare("INSERT INTO `user_information`(`first_name`, `last_name`, `middle_name`, `gender`, `email`, `username`, `password`, `role`, `hasVoted`, `date_created`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
     $role = 'user';
     $stmt->bind_param(
-      "ssssssss",
+      "sssssssss",
       $fields["first_name"],
       $fields["last_name"],
       $fields["middle_name"],
@@ -51,26 +54,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $fields["username"],
       $hashed_password,
       $role,
+      $hasVoted,
     );
 
     if ($stmt->execute()) {
       $success_msg = "Account Successfully Created";
-      $fields = array_map(fn() => '', $fields);
-      $registration_successful = true;
-    } else {
-      $errors['db'] = "Database error: " . $stmt->error;
-    }
 
-    if ($registration_successful) {
       session_start();
       session_regenerate_id(true);
 
       $_SESSION["username"] = $fields["username"];
+      $_SESSION["hasVoted"] = $hasVoted;
       $_SESSION["role"] = $role;
 
-
-      header('Location : dashboard.php');
+      $fields = array_map(fn() => '', $fields);
+      header('location: dashboard.php');
       exit();
+    } else {
+      $errors['db'] = "Database error: " . $stmt->error;
     }
 
     $stmt->close();

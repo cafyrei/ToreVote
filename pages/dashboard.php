@@ -1,56 +1,169 @@
+<?php
+session_start();
+include("../database/connection.php");
+/** @var mysqli $conn */
+
+if (!isset($_SESSION['email'])) {
+  header('location: login.php');
+  exit();
+}
+
+$username = $_SESSION['username'];
+
+$sqlVoted = "SELECT hasVoted FROM user_information WHERE username = ?";
+$stmtVoted = $conn->prepare($sqlVoted);
+$stmtVoted->bind_param("s", $username);
+$stmtVoted->execute();
+$resultVoted = $stmtVoted->get_result();
+$userRow = $resultVoted->fetch_assoc();
+$hasVoted = $userRow['hasVoted'] ?? 0;
+
+$sql = "SELECT
+  COUNT(*) AS total_voters,
+  COUNT(CASE WHEN hasVoted = 1 THEN 1 END) AS votes_cast,
+  COUNT(CASE WHEN hasVoted = 0 THEN 1 END) AS votes_remaining
+FROM user_information";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+$result = $stmt->get_result();
+$row = $result->fetch_assoc();
+$total_voters = $row['total_voters'];
+$votes_cast = $row['votes_cast'];
+$votes_remaining = $row['votes_remaining'];
+
+
+$sql = "SELECT position 
+FROM candidates 
+GROUP BY position 
+ORDER BY 
+  CASE position
+    WHEN 'President' THEN 1
+    WHEN 'Vice President' THEN 2
+    WHEN 'Secretary' THEN 3
+    WHEN 'Treasurer' THEN 4
+    WHEN 'Auditor' THEN 5
+  END;
+";
+$position_result = mysqli_query($conn, $sql);
+
+$results_sections = [];
+
+while ($position_row = mysqli_fetch_assoc($position_result)) {
+  $position = $position_row['position'];
+
+  $candidates_sql = "SELECT * FROM candidates WHERE position = '$position'";
+  $candidates_result = mysqli_query($conn, $candidates_sql);
+
+  $total_votes = 0;
+  $candidates = [];
+
+  while ($candidate = mysqli_fetch_assoc($candidates_result)) {
+    $vote = isset($candidate['vote_count']) ? (int)$candidate['vote_count'] : 0;
+    $total_votes += $vote;
+    $candidate['vote_count'] = $vote;
+    $candidates[] = $candidate;
+  }
+
+
+  $results_sections[] = [
+    'position' => $position,
+    'candidates' => $candidates,
+    'total_votes' => $total_votes
+  ];
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Voting Dashboard</title>
   <link rel="stylesheet" href="../styles/dashboard-style.css" />
+  <link rel="stylesheet" href="../styles/results-style.css" />
 </head>
+
 <body>
   <div class="dashboard">
     <!-- sidebar -->
     <aside class="sidebar">
       <h2 class="logo">VotingSys</h2>
       <nav>
-        <a href="./dashboard.php" class="active">Dashboard</a>
+        <a href="#" class="active">Dashboard</a>
         <a href="./vote.php">Vote</a>
-        <a href="./results.php">Results</a>
-        <a href="#">Logout</a>
+        <a href="./logout.php" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
+
       </nav>
     </aside>
 
     <!-- main -->
     <main class="main-content">
-        <!-- Hatak dito pre moreon Variables -->
+      <!-- Hatak dito pre moreon Variables -->
       <header class="topbar">
-        <!-- Gawin nyong variable name dito pre tas hatakin sa SQL -->
-        <h1>Welcome, User</h1>
+        <h1>Welcome, <?php echo $username ?></h1>
       </header>
 
       <section class="cards">
         <div class="card">
           <h3>Total Voters</h3>
-          <!-- Adjust nyo pre sa PHP -->
-          <p>1,024</p>
+          <p><?php echo $total_voters ?></p>
         </div>
         <div class="card">
           <h3>Votes Cast</h3>
-          <!-- Adjust nyo to pre sa PHP  -->
-          <p>890</p>
+          <p><?php echo $votes_cast ?></p>
         </div>
         <div class="card">
           <h3>Remaining</h3>
-          <!-- Adjust nyo to pre Pa PHP -->
-          <p>134</p> 
+          <p><?php echo $votes_remaining ?></p>
         </div>
       </section>
 
-      <section class="vote-now">
-        <h2>Ready to vote?</h2>
-        <p>Select your candidate from the list and click submit.</p>
-        <button>Go to Voting Page</button>
-      </section>
+
+      <main class="result-content">
+        <header class="topbar">
+          <h1>Voting Results</h1>
+          <p>See who’s leading for each position.</p>
+        </header>
+
+        <?php foreach ($results_sections as $section): ?>
+          <section class="results-section">
+            <h2 class="position-title"><?= htmlspecialchars($section['position']) ?></h2>
+            <div class="results-list">
+              <?php foreach ($section['candidates'] as $c):
+                $percentage = $section['total_votes'] > 0 ? round(($c['vote_count'] / $section['total_votes']) * 100) : 0;
+              ?>
+                <div class="result-card">
+                  <img src="../img/<?= htmlspecialchars($c['photo']) ?>" alt="<?= htmlspecialchars($c['candidate_name']) ?>">
+                  <div class="info">
+                    <h3><?= htmlspecialchars($c['candidate_name']) ?></h3>
+                    <p>Votes: <?= $c['vote_count'] ?></p>
+                    <div class="progress-bar">
+                      <div class="fill" style="width: <?= $percentage ?>%;"><?= $percentage ?>%</div>
+                    </div>
+                  </div>
+                </div>
+              <?php endforeach; ?>
+            </div>
+          </section>
+        <?php endforeach; ?>
+
+      </main>
+
+      <div class="vote-now">
+        <?php if (!$hasVoted) { ?>
+          <h2>Ready to vote?</h2>
+          <p>Select your candidate from the list and click submit.</p>
+          <a href="./vote.php"><button>Go to Voting Page</button></a>
+        <?php } else { ?>
+          <h2>You have already casted your vote!</h2>
+          <p>See the results!</p>
+          <a href="./results.php"><button>Go to Results</button></a>
+        <?php } ?>
+        </section>
     </main>
   </div>
 </body>
+
 </html>
