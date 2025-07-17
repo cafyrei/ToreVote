@@ -10,7 +10,7 @@ if (isset($_POST['btnLogin'])) {
   $email = $_POST['email'];
   $pass = $_POST['password'];
 
-  $sql = "SELECT id_number, email, password, username, hasVoted FROM user_information WHERE email = ?";
+  $sql = "SELECT admin_id, admin_email, admin_password FROM admin_db WHERE admin_email = ?";
 
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $email);
@@ -18,16 +18,29 @@ if (isset($_POST['btnLogin'])) {
   $result = $stmt->get_result();
   $row = $result->fetch_assoc();
 
-  if ($row && password_verify($pass, $row['password'])) {
-    $_SESSION['email'] = $row['email'];
-    $_SESSION['username'] = $row['username'];
-    $_SESSION['hasVoted'] = $row['hasVoted'];
+  var_dump($row);
+
+  $plain = "admin123";
+  $hash = '$2y$10$W9ZmVEfzfWQqA83KDYxPIeHE1QUSYHxt3hQmWl0XGe5MYu1MZAjAq';
+
+  if (password_verify($plain, $hash)) {
+    echo "Password is correct!";
+  } else {
+    echo "Wrong password.";
+  }
+
+
+  if ($row && password_verify($pass, $row['admin_password'])) {
+    $_SESSION['admin_id'] = $row['admin_id'];
+    $_SESSION['admin_email'] = $row['admin_email'];
+
     header('Location: dashboard.php');
     exit();
   } else {
     $login_err = "Invalid Email or Password";
   }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -37,7 +50,7 @@ if (isset($_POST['btnLogin'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login Page</title>
-    <link rel="stylesheet" href="../styles/admin-style.css">
+  <link rel="stylesheet" href="../styles/admin-style.css">
 </head>
 
 <body>

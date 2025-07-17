@@ -6,11 +6,11 @@ include("../database/connection.php");
 if (isset($_POST['search'])) {
     $searchq = strtolower($_POST['search']);
     $searchq = "%$searchq%";
-    $query = "SELECT * FROM `user_information` WHERE LOWER(first_name) LIKE ?";
+    $query = "SELECT * FROM user_information WHERE LOWER(first_name) LIKE ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("s", $searchq);
 } else {
-    $query = "SELECT * FROM `user_information`";
+    $query = "SELECT * FROM user_information";
     $stmt = $conn->prepare($query);
 }
 
@@ -20,6 +20,17 @@ $rows = [];
 
 while ($result = $results->fetch_assoc()) {
     $rows[] = $result;
+}
+
+
+if (isset($_GET['delete'])) {
+    $id = intval($_GET['delete']);
+    $deleteStmt = $conn->prepare("DELETE FROM user_information WHERE id_number = ?");
+    $deleteStmt->bind_param("i", $id);
+    $deleteStmt->execute();
+    
+    header("Location: voters_maintenance.php");
+    exit();
 }
 
 ?>
@@ -60,7 +71,7 @@ while ($result = $results->fetch_assoc()) {
         <h1>Voters' Maintenance</h1>
       </header>
     <form method="POST" class="add-form" id="addPositionForm">
-        <input type="text" name="search" id="position_name" placeholder="Search Voter's First Name" required />
+        <input type="text" name="search" id="voter_name" placeholder="Search Voter's First Name" required />
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
 
@@ -88,11 +99,13 @@ while ($result = $results->fetch_assoc()) {
                 <td><?=$row['email']?></td>
                 <td><?=$row['username']?></td>
                 <td><?=$row['password'] = substr($row['password'], 0, 11)?></td>
-                <td><?=$row['hasVoted'] ? 'Voted' : 'Not Voted'?></td>
+                <td><span class="<?= $row['hasVoted'] ? 'text-success' : 'text-danger' ?>">
+                    <?= $row['hasVoted'] ? 'Voted' : 'Not Voted' ?></span></td>
                 <td><?=$row['date_created']?></td>
                 <td>
-                <a href='?edit=<?= $row['id_number'] ?>' class='btn btn-primary btn-sm'>Modify</a>
-                <a href='?delete=<?= $row['PositionID'] ?>' class='btn btn-danger btn-sm' onclick='return confirm("Are you sure you want to delete this position?")'>Delete</a>
+                <a href='?edit=<?= $row['id_number'] ?>' class='edit-btn'>Modify</a> |
+                <a href='?delete=<?= $row['id_number'] ?>' class='delete-btn text-danger' onclick='return confirm("Are you sure you want to delete this voter?")'>Delete</a>
+
                 </td>
             </tr>
         <?php } ?>

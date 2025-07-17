@@ -135,6 +135,7 @@ th {
 .edit-btn {
   color: #007bff;
   text-decoration: none;
+  font-weight: bold;
 }
 
 .edit-btn:hover {
@@ -185,4 +186,13 @@ th {
 
 .custom-modal {
   max-width: 400px;
+}
+.delete-btn {
+  color: red;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.delete-btn:hover {
+  text-decoration: underline;
 }
