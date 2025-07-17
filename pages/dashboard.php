@@ -94,7 +94,7 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
   <title>Voting Dashboard</title>
   <link rel="stylesheet" href="../styles/dashboard-style.css" />
   <link rel="stylesheet" href="../styles/results-style.css" />
-
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
