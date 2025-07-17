@@ -3,6 +3,16 @@ session_start();
 include("../database/connection.php");
 /** @var mysqli $conn */
 
+if (isset($_GET['delete'])) {
+    $id = intval($_GET['delete']);
+    $deleteStmt = $conn->prepare("DELETE FROM user_information WHERE id_number = ?");
+    $deleteStmt->bind_param("i", $id);
+    $deleteStmt->execute();
+    
+    header("Location: voters_maintenance.php");
+    exit();
+}
+
 if (isset($_POST['search'])) {
     $searchq = strtolower($_POST['search']);
     $searchq = "%$searchq%";
@@ -20,17 +30,6 @@ $rows = [];
 
 while ($result = $results->fetch_assoc()) {
     $rows[] = $result;
-}
-
-
-if (isset($_GET['delete'])) {
-    $id = intval($_GET['delete']);
-    $deleteStmt = $conn->prepare("DELETE FROM user_information WHERE id_number = ?");
-    $deleteStmt->bind_param("i", $id);
-    $deleteStmt->execute();
-    
-    header("Location: voters_maintenance.php");
-    exit();
 }
 
 ?>
@@ -104,7 +103,12 @@ if (isset($_GET['delete'])) {
                 <td><?=$row['date_created']?></td>
                 <td>
                 <a href='voters_modification.php?edit=<?= $row['id_number'] ?>' class='edit-btn'>Modify</a> |
-                <a href='?delete=<?= $row['id_number'] ?>' class='delete-btn text-danger' onclick='return confirm("Are you sure you want to delete this voter?")'>Delete</a>
+                <a href="#" 
+   class="delete-btn" 
+   data-id="<?= $row['id_number'] ?>" 
+   data-toggle="modal" 
+   data-target="#deleteModal">Delete</a>
+
 
                 </td>
             </tr>
@@ -118,6 +122,25 @@ if (isset($_GET['delete'])) {
                 echo '<div class="center-button"><a href="./voters_maintenance.php" class="myButton">Go Back</a></div>';
                 }?>
       <!-- Modal -->
+       <!-- DELETE MODAL -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Deletion</h5>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this voter?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <!-- LOGOUT MODAL -->
       <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -136,5 +159,42 @@ if (isset($_GET['delete'])) {
       </div>
     </main>
   </div>
+
+  <script>
+        document.addEventListener("DOMContentLoaded", function () {
+  const deleteButtons = document.querySelectorAll(".delete-btn");
+  const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+  deleteButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+      confirmDeleteBtn.setAttribute("href", "?delete=" + id);
+    });
+  });
+});
+
+    </script>
+
+    <script>
+        $('#editModal').on('show.bs.modal', function(event) {
+            const button = $(event.relatedTarget);
+            const id = button.data('id');
+            const name = button.data('name');
+
+            const modal = $(this);
+            modal.find('#edit_partylist_id').val(id);
+            modal.find('#edit_partylist_name').val(name);
+        });
+    </script>
+
+    <!-- jQuery (required by Bootstrap 4) -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+<!-- Popper.js (required for Bootstrap 4 tooltips & modals) -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+<!-- Bootstrap 4 JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
