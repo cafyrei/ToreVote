@@ -4,7 +4,7 @@ include("../database/connection.php");
 /** @var mysqli $conn */
 
 $id_number = $_SESSION['id_number'];
-
+echo $id_number;
 if (!$id_number) {
   header("Location: index.php");
   exit();
@@ -18,13 +18,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   }
 }
 
-  // ✅ Now update hasVoted to 1 after successful submission
   $setVoted = $conn->prepare("UPDATE user_information SET `hasVoted` = 1 WHERE `id_number` = ?");
   $setVoted->bind_param("i", $id_number);
   $setVoted->execute();
   $setVoted->close();
 
-  // ✅ Redirect to results
   header("Location: vote.php");
   exit();
 
