@@ -20,6 +20,7 @@ if (isset($_POST['btnLogin'])) {
 
   if ($row && password_verify($pass, $row['password'])) {
     $_SESSION['email'] = $row['email'];
+    $_SESSION['id_number'] = $row['id_number'];
     $_SESSION['username'] = $row['username'];
     $_SESSION['hasVoted'] = $row['hasVoted'];
     header('Location: vote.php');
