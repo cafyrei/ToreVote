@@ -68,12 +68,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       session_start();
       session_regenerate_id(true);
 
-      $_SESSION["username"] = $fields["username"];
+      $_SESSION['username'] = $fields['username'];
+      $_SESSION['email'] = $fields['email'];
+      $_SESSION['id_number'] = $fields['id_number'];
       $_SESSION["hasVoted"] = $hasVoted;
       $_SESSION["role"] = $role;
 
       $fields = array_map(fn() => '', $fields);
-      header('location: dashboard.php');
+      header('location: vote.php');
       exit();
     } else {
       $errors['db'] = "Database error: " . $stmt->error;

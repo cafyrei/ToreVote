@@ -6,7 +6,7 @@ include("../database/connection.php");
 $id_number = $_SESSION['id_number'];
 
 if (!$id_number) {
-  header("Location: login.php");
+  header("Location: index.php");
   exit();
 }
 

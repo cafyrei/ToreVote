@@ -4,7 +4,7 @@ include("../database/connection.php");
 /** @var mysqli $conn */
 
 if (!isset($_SESSION['email'])) {
-  header('location: login.php');
+  header('location: index.php');
   exit();
 }
 
@@ -104,12 +104,13 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
     <!-- sidebar -->
     <aside class="sidebar">
       <h2 class="logo">VotingSys</h2>
+      <h3 class="logo">Admnistrator</h3>
       <nav>
         <a href="#" class="active">Dashboard</a>
-        <a <?php if ($hasVoted) { ?> data-bs-toggle="modal" data-bs-target="#exampleModal" href="./dashboard.php" <?php } ?> href="./vote.php">Vote</a>
-        <?php if ($role === 'admin') : ?>
-          <a href="./add-candidates.php">Add Candidates</a>
-        <?php endif; ?>
+        <a href="#">Partylist Maintenance</a>
+        <a href="#">Position Maintenance</a>
+        <a href="#">Candidate Maintenance</a>
+        <a href="#">Voters Maintenance</a>
         <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
     </aside>
