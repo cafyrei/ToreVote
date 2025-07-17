@@ -87,12 +87,12 @@ if (isset($_GET['delete'])) {
             <h2 class="logo">VotingSys</h2>
             <h5 class="logo">Administrator</h5>
             <nav>
-                <a href="#">Dashboard</a>
-                <a href="./partylist_maintenance.php">Partylist Maintenance</a>
+                <a href="./dashboard.php"">Dashboard</a>
+                <a href="./partylist_maintenance.php" class="active">Partylist Maintenance</a>
                 <a href="./position_maintenance.php">Position Maintenance</a>
-                <a href="#">Candidate Maintenance</a>
-                <a href="#">Voters Maintenance</a>
-                <a href="#" class="logout-button">Logout</a>
+                <a href="./add-candidates.php">Candidate Maintenance</a>
+                <a href="./voters_maintenance.php">Voters Maintenance</a>
+                <a href="./logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
             </nav>
         </aside>
 
@@ -170,14 +170,15 @@ if (isset($_GET['delete'])) {
             <form method="POST" enctype="multipart/form-data"
                 id="addPartylistForm"
                 class="add-form mt-4 <?= isset($_SESSION['partylist_added']) ? 'added-success' : '' ?>">
-
-
                 <input type="text" name="partylist_name" placeholder="Enter partylist name" required />
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button>
                 <input type="hidden" name="add_partylist" value="1">
             </form>
+
+            
         </main>
     </div>
+
     <!-- MODAL SECTION -->
     <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered custom-modal" role="document">

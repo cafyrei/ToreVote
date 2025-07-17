@@ -3,20 +3,16 @@ session_start();
 include("../database/connection.php");
 /** @var mysqli $conn */
 
-// if (!isset($_SESSION['email'])) {
-//   header('location: index.php');
-//   exit();
-// }
-
 $username = $_SESSION['username'];
 
+// Get user's voting status and role
 $sqlVoted = "SELECT hasVoted, role FROM user_information WHERE username = ?";
 $stmt = $conn->prepare($sqlVoted);
 $stmt->bind_param("s", $username);
 $stmt->execute();
-
 $result = $stmt->get_result();
-if ($userRow = $result->fetch_assoc()){
+
+if ($userRow = $result->fetch_assoc()) {
   $hasVoted = $userRow['hasVoted'];
   $role = $userRow['role'];
 } else {
@@ -24,6 +20,7 @@ if ($userRow = $result->fetch_assoc()){
   exit;
 }
 
+// Get total voters, votes cast, and votes remaining
 $sql = "SELECT
   COUNT(*) AS total_voters,
   COUNT(CASE WHEN hasVoted = 1 THEN 1 END) AS votes_cast,
@@ -34,36 +31,30 @@ $stmt = $conn->prepare($sql);
 $stmt->execute();
 $result = $stmt->get_result();
 $row = $result->fetch_assoc();
+
 $total_voters = $row['total_voters'];
 $votes_cast = $row['votes_cast'];
 $votes_remaining = $row['votes_remaining'];
 
-$sql = "SELECT role FROM user_information WHERE username = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $username);
-$stmt->execute();
-
-$result = $stmt->get_result();
-
+// Get ordered list of positions
 $sql = "SELECT position
-FROM candidates
-GROUP BY position
-ORDER BY
-  CASE position
-    WHEN 'President' THEN 1
-    WHEN 'Vice President' THEN 2
-    WHEN 'Secretary' THEN 3
-    WHEN 'Treasurer' THEN 4
-    WHEN 'Auditor' THEN 5
-  END;
-";
+        FROM candidates
+        GROUP BY position
+        ORDER BY
+          CASE position
+            WHEN 'President' THEN 1
+            WHEN 'Vice President' THEN 2
+            WHEN 'Secretary' THEN 3
+            WHEN 'Treasurer' THEN 4
+            WHEN 'Auditor' THEN 5
+          END";
 $position_result = mysqli_query($conn, $sql);
 
+// Fetch candidates for each position
 $results_sections = [];
 
 while ($position_row = mysqli_fetch_assoc($position_result)) {
   $position = $position_row['position'];
-
   $candidates_sql = "SELECT * FROM candidates WHERE position = '$position'";
   $candidates_result = mysqli_query($conn, $candidates_sql);
 
@@ -83,7 +74,6 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
     'total_votes' => $total_votes
   ];
 }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -107,11 +97,11 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
       <h3 class="logo">Admnistrator</h3>
       <nav>
         <a href="#" class="active">Dashboard</a>
-        <a href="#">Partylist Maintenance</a>
-        <a href="#">Position Maintenance</a>
-        <a href="#">Candidate Maintenance</a>
+        <a href="./partylist_maintenance.php">Partylist Maintenance</a>
+        <a href="./position_maintenance.php">Position Maintenance</a>
+        <a href="./partylist_maintenance.php">Candidate Maintenance</a>
         <a href="./voters_maintenance.php">Voters Maintenance</a>
-        <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+        <a href="./logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
     </aside>
 
@@ -182,16 +172,6 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="vote-now">
-        <?php if (!$hasVoted) { ?>
-          <h2>Ready to vote?</h2>
-          <p>Select your candidate from the list and click submit.</p>
-          <a href="./vote.php"><button>Go to Voting Page</button></a>
-        <?php } else { ?>
-          <h2>You have already casted your vote!</h2>
-        <?php } ?>
       </div>
 
       <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">

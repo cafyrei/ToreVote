@@ -185,3 +185,6 @@ table, th, td {
   vertical-align: middle; 
 }
 
+.main-content form {
+  text-align: center;
+} 

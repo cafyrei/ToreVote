@@ -22,7 +22,7 @@ if (isset($_POST['btnLogin'])) {
     $_SESSION['email'] = $row['email'];
     $_SESSION['username'] = $row['username'];
     $_SESSION['hasVoted'] = $row['hasVoted'];
-    header('Location: dashboard.php');
+    header('Location: vote.php');
     exit();
   } else {
     $login_err = "Invalid Email or Password";
