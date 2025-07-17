@@ -33,9 +33,7 @@ while ($result = $results->fetch_assoc()) {
   <title>Voting Dashboard</title>
   <link rel="stylesheet" href="../styles/voters_maintenance-style.css" />
   <link rel="stylesheet" href="../styles/results-style.css" />
-
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
