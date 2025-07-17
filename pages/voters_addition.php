@@ -38,6 +38,8 @@ if (isset($_POST['add'])) {
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -52,7 +54,7 @@ if (isset($_POST['add'])) {
         <a href="#">Position Maintenance</a>
         <a href="#">Candidate Maintenance</a>
         <a href="#" class="active">Voters Maintenance</a>
-        <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+        <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
     </aside>
 
@@ -146,7 +148,7 @@ if (isset($_POST['add'])) {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a href="./logout.php" class="btn btn-primary">Yes, Logout</a>
+              <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
             </div>
           </div>
         </div>

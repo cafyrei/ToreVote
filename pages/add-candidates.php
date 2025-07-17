@@ -3,6 +3,36 @@ include("../database/connection.php");
 $message = "";
 /** @var mysqli $conn */
 
+// Fetch positions
+$positions = [];
+$posQuery = "SELECT DISTINCT position_name FROM positions ORDER BY
+  CASE position_name
+    WHEN 'President' THEN 1
+    WHEN 'Vice President' THEN 2
+    WHEN 'Secretary' THEN 3
+    WHEN 'Treasurer' THEN 4
+    WHEN 'Auditor' THEN 5
+    WHEN 'PRO' THEN 6
+    ELSE 7
+  END;";
+
+$posResult = $conn->query($posQuery);
+if ($posResult && $posResult->num_rows > 0) {
+  while ($row = $posResult->fetch_assoc()) {
+    $positions[] = $row['position_name'];
+  }
+}
+
+$partylists = [];
+$partylist_Query = "SELECT partylist_id, partylist_name FROM party_list ORDER BY partylist_name ASC";
+$partylist_Results = $conn->query($partylist_Query);
+
+if ($partylist_Results && $partylist_Results->num_rows > 0) {
+  while ($row = $partylist_Results->fetch_assoc()) {
+    $partylists[] = $row;
+  }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $name = $_POST['candidate_name'];
   $position = $_POST['position'];
@@ -22,15 +52,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $stmt->bind_param("ssss", $name, $position, $platform, $photoName);
 
       if ($stmt->execute()) {
-        $message = "✅ Candidate added successfully!";
+        $message = "Candidate added successfully!";
       } else {
-        $message = "❌ Execute failed: " . $stmt->error;
+        $message = "Execute failed: " . $stmt->error;
       }
     }
   } else {
-    $message = "❌ Error uploading image.";
+    $message = "Error uploading image.";
   }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -41,18 +72,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add Candidate | Admin</title>
   <link rel="stylesheet" href="../styles/add-candidate.css" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body>
   <div class="dashboard">
-    <!-- sidebar -->
     <aside class="sidebar">
       <h2 class="logo">VotingSys</h2>
+      <h5 class="logo">Administrator</h5>
       <nav>
         <a href="./dashboard.php">Dashboard</a>
-        <a href="./add-candidate.php" class="active">Add Candidates</a>
-        <a href="./vote.php">Vote</a>
-        <a href="./logout.php" onclick="return confirm('Are you sure you want to logout?');">Logout</a>
+        <a href=" ./partylist_maintenance.php">Partylist Maintenance</a>
+        <a href="./position_maintenance.php">Position Maintenance</a>
+        <a href="./add-candidates.php" class="active">Candidate Maintenance</a>
+        <a href="./voters_maintenance.php">Voters Maintenance</a>
+        <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
     </aside>
 
@@ -75,18 +114,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="text" name="candidate_name" id="candidate_name" required />
           </div>
 
-          <!-- get nalang tayo by id dito -->
           <div class="form-group">
             <label for="position">Position</label>
             <select name="position" id="position" required>
               <option value="">Select a Position</option>
-              <option value="President">President</option>
-              <option value="Vice President">Vice President</option>
-              <option value="Secretary">Secretary</option>
-              <option value="Treasurer">Treasurer</option>
-              <option value="Auditor">Auditor</option>
+              <?php foreach ($positions as $position): ?>
+                <option value="<?= htmlspecialchars($position) ?>"><?= htmlspecialchars($position) ?></option>
+              <?php endforeach; ?>
+
             </select>
           </div>
+
+          <div class="form-group">
+            <label for="partylist_id">Partylist</label>
+            <select name="partylist_id" id="partylist_id" required>
+              <option value="">Select a Partylist</option>
+              <?php foreach ($partylists as $plist): ?>
+                <option value="<?= $plist['partylist_id'] ?>"><?= htmlspecialchars($plist['partylist_name']) ?></option>
+              <?php endforeach; ?>
+            </select>
+          </div>
+
 
           <div class="form-group">
             <label for="platform">Platform/Advocacy</label>
@@ -101,8 +149,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <button type="submit" class="submit-btn">Add Candidate</button>
         </form>
       </section>
+
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </body>
-
 </html>
