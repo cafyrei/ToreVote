@@ -212,7 +212,9 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
 
     </main>
   </div>
+  
 
+  
 
 </body>
 
