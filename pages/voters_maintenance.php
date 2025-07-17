@@ -3,15 +3,24 @@ session_start();
 include("../database/connection.php");
 /** @var mysqli $conn */
 
+if (isset($_GET['delete'])) {
+    $id = intval($_GET['delete']);
+    $deleteStmt = $conn->prepare("DELETE FROM user_information WHERE id_number = ?");
+    $deleteStmt->bind_param("i", $id);
+    $deleteStmt->execute();
+    header("Location: voters_maintenance.php");
+    exit();
+}
+
 if (isset($_POST['search'])) {
-  $searchq = strtolower($_POST['search']);
-  $searchq = "%$searchq%";
-  $query = "SELECT * FROM `user_information` WHERE LOWER(first_name) LIKE ?";
-  $stmt = $conn->prepare($query);
-  $stmt->bind_param("s", $searchq);
+    $searchq = strtolower($_POST['search']);
+    $searchq = "%$searchq%";
+    $query = "SELECT * FROM user_information WHERE LOWER(first_name) LIKE ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("s", $searchq);
 } else {
-  $query = "SELECT * FROM `user_information`";
-  $stmt = $conn->prepare($query);
+    $query = "SELECT * FROM user_information";
+    $stmt = $conn->prepare($query);
 }
 
 $stmt->execute();
@@ -34,6 +43,8 @@ while ($result = $results->fetch_assoc()) {
   <link rel="stylesheet" href="../styles/voters_maintenance-style.css" />
   <link rel="stylesheet" href="../styles/results-style.css" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -43,21 +54,22 @@ while ($result = $results->fetch_assoc()) {
       <h2 class="logo">VotingSys</h2>
       <h3 class="logo">Admnistrator</h3>
       <nav>
-        <a href="./dashboard.php"">Dashboard</a>
-        <a href="./partylist_maintenance.php">Partylist Maintenance</a>
-        <a href="./position_maintenance.php">Position Maintenance</a>
-        <a href="./add-candidates.php">Candidate Maintenance</a>
-        <a href="./voters_maintenance.php" class="active">Voters Maintenance</a>
-        <a href="./logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
-      </nav>
+                <a href="./dashboard.php">Dashboard</a>
+                <a href="./partylist_maintenance.php">Partylist Maintenance</a>
+                <a href="./position_maintenance.php">Position Maintenance</a>
+                <a href="./add-candidates.php">Candidate Maintenance</a>
+                <a href="./voters_maintenance.php" class="active">Voters Maintenance</a>
+                <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+            </nav>
     </aside>
 
     <!-- main -->
     <main class="main-content">
       <header class="topbar">
         <h1>Voters' Maintenance</h1>
+        <hr style="margin: 10px 0; border-top: 4px solid #1e3a8a;" />
       </header>
-      <form method="POST" class="add-form" id="addPositionForm">
+      <form method="POST" class="add-form mt-4" id="addPositionForm">
         <input type="text" name="search" id="position_name" placeholder="Search Voter's First Name" required />
         <button type="submit" class="btn btn-primary">Search</button>
       </form>
@@ -76,33 +88,56 @@ while ($result = $results->fetch_assoc()) {
           <th>Date Created</th>
           <th>Action</th>
         </tr>
-        <?php foreach ($rows as $row) { ?>
-          <tr>
-            <td><?= $row['id_number'] ?></td>
-            <td><?= $row['first_name'] ?></td>
-            <td><?= $row['middle_name'] ?></td>
-            <td><?= $row['last_name'] ?></td>
-            <td><?= $row['gender'] ?></td>
-            <td><?= $row['email'] ?></td>
-            <td><?= $row['username'] ?></td>
-            <td><?= $row['password'] = substr($row['password'], 0, 11) ?></td>
-            <td><?= $row['hasVoted'] ? 'Voted' : 'Not Voted' ?></td>
-            <td><?= $row['date_created'] ?></td>
-            <td>
-              <a href='?edit=<?= $row['id_number'] ?>' class='btn btn-primary btn-sm'>Modify</a>
-              <a href='?delete=<?= $row['PositionID'] ?>' class='btn btn-danger btn-sm' onclick='return confirm("Are you sure you want to delete this position?")'>Delete</a>
-            </td>
-          </tr>
+        <?php foreach($rows as $row) { ?>
+            <tr>
+                <td><?=$row['id_number']?></td>
+                <td><?=$row['first_name']?></td>
+                <td><?=$row['middle_name']?></td>
+                <td><?=$row['last_name']?></td>
+                <td><?=$row['gender']?></td>
+                <td><?=$row['email']?></td>
+                <td><?=$row['username']?></td>
+                <td><?=$row['password'] = substr($row['password'], 0, 11)?></td>
+                <td><span class="<?= $row['hasVoted'] ? 'text-success' : 'text-danger' ?>"><?= $row['hasVoted'] ? 'Voted' : 'Not Voted' ?></span></td>
+                <td><?=$row['date_created']?></td>
+                <td>
+                <a href='voters_modification.php?edit=<?= $row['id_number'] ?>' class='edit-btn'>Modify</a> |
+                <a href="#"class="delete-btn" data-id="<?= $row['id_number'] ?>" data-toggle="modal" data-target="#deleteModal">Delete</a>
+
+
+                </td>
+            </tr>
         <?php } ?>
       </table>
       <?php if (isset($_POST['search'])) {
-        if ($results->num_rows === 0) {
-          echo '<h1 class="center-text">No Results Found</h1>';
-        }
-        echo '<div class="center-button"><a href="./voters_maintenance.php" class="myButton">Go Back</a></div>';
-      } ?>
+                if ($results->num_rows === 0) {
+                        echo '<h1 class="center-text">No Results Found</h1>';
+                }
+                echo '<div class="center-button"><a href="./voters_maintenance.php" class="myButton">Go Back</a></div>';
+                } else {
+                  echo '<div class="center-btn-ADD"><a href="./voters_addition.php" class="addBTN">Add Voter</a></div>';
+                }?>
       <!-- Modal -->
-      <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+       <!-- DELETE MODAL -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Deletion</h5>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to delete this voter?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <a id="confirmDeleteBtn" href="#" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+      <!-- LOGOUT MODAL -->
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -113,13 +148,29 @@ while ($result = $results->fetch_assoc()) {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a href="./logout.php" class="btn btn-primary">Yes, Logout</a>
+              <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
             </div>
           </div>
         </div>
       </div>
-    </main>
-  </div>
+
+  <script>
+        document.addEventListener("DOMContentLoaded", function () {
+  const deleteButtons = document.querySelectorAll(".delete-btn");
+  const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+  deleteButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+      confirmDeleteBtn.setAttribute("href", "?delete=" + id);
+    });
+  });
+});
+    </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

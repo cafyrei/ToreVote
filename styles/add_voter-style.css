@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo+Black&family=Archivo:ital,wght@0,100..900;1,100..900&family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Cinzel+Decorative:wght@400;700;900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Rowdies:wght@300;400;700&family=Uncial+Antiqua&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: #f1f5f9;
+  color: #fff;
+  min-height: 100vh;
+}
+
+.regis-wrapper {
+  padding: 20px;
+  width: 100%;
+  max-width: 900px;
+}
+
+.form-box {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(175, 175, 175, 0.6);
+}
+
+.form-box h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #1e3a8a;
+  text-align: center;
+}
+
+.subhead {
+  text-align: center;
+  font-size: 14px;
+  color: #444444;
+  margin-bottom: 30px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  width: 100%;
+}
+
+label {
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: #2c2c2c;
+}
+
+input,
+select {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #eeeeee;
+  color: #3f3f3f;
+  font-size: 15px;
+  transition: 0.2s ease;
+}
+
+select {
+  width: 300px;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  background: #d1d1d1;
+}
+
+button {
+  padding: 14px;
+  background-color:#2563eb;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background-color: #6a9eff;
+}
+

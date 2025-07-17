@@ -75,8 +75,11 @@ if (isset($_GET['delete'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Position Maintenance</title>
-    <link rel="stylesheet" href="../styles/partylist_maintenance.css"/>
+    <link rel="stylesheet" href="../styles/partylist_maintenance.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <body>
@@ -85,12 +88,12 @@ if (isset($_GET['delete'])) {
             <h2 class="logo">VotingSys</h2>
             <h5 class="logo">Administrator</h5>
             <nav>
-                <a href="./dashboard.php"">Dashboard</a>
+                <a href="./dashboard.php">Dashboard</a>
                 <a href="./partylist_maintenance.php" class="active">Partylist Maintenance</a>
                 <a href="./position_maintenance.php">Position Maintenance</a>
                 <a href="./add-candidates.php">Candidate Maintenance</a>
                 <a href="./voters_maintenance.php">Voters Maintenance</a>
-                <a href="./logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+                <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
             </nav>
         </aside>
 
@@ -114,7 +117,7 @@ if (isset($_GET['delete'])) {
                     <input type="hidden" name="partylist_id" value="<?= $editRow['partylist_id'] ?>" />
                     <input type="text" name="new_partylist_name" value="<?= htmlspecialchars($editRow['partylist_name']) ?>" required />
                     <input type="file" name="new_partylist_image" accept="image/*" />
-                    <a href="./partylist_maintenance.php" class="btn btn-secondary">Cancel</a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                     <button type="submit" name="update_partylist" class="btn btn-primary">Save</button>
                 </form>
             <?php endif; ?>
@@ -246,7 +249,24 @@ if (isset($_GET['delete'])) {
                 </form>
             </div>
         </div>
+
     </div>
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
 
 
     <!-- END OF MODAL SECTION -->

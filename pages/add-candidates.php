@@ -5,7 +5,7 @@ $message = "";
 
 // Fetch positions
 $positions = [];
-$posQuery = "SELECT DISTINCT position_name FROM positions ORDER BY 
+$posQuery = "SELECT DISTINCT position_name FROM positions ORDER BY
   CASE position_name
     WHEN 'President' THEN 1
     WHEN 'Vice President' THEN 2
@@ -72,6 +72,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add Candidate | Admin</title>
   <link rel="stylesheet" href="../styles/add-candidate.css" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </head>
 
 <body>
@@ -80,12 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <h2 class="logo">VotingSys</h2>
       <h5 class="logo">Administrator</h5>
       <nav>
-        <a href="./dashboard.php"">Dashboard</a>
+        <a href="./dashboard.php">Dashboard</a>
         <a href=" ./partylist_maintenance.php">Partylist Maintenance</a>
         <a href="./position_maintenance.php">Position Maintenance</a>
-        <a href="./add-candidates.php"  class="active">Candidate Maintenance</a>
+        <a href="./add-candidates.php" class="active">Candidate Maintenance</a>
         <a href="./voters_maintenance.php">Voters Maintenance</a>
-        <a href="./logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+        <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
     </aside>
 
@@ -143,8 +149,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <button type="submit" class="submit-btn">Add Candidate</button>
         </form>
       </section>
+
+            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
   </div>
 </body>
-
 </html>

@@ -132,23 +132,25 @@ th {
   color: white;
 }
 
-.edit-btn {
+.save-btn {
   color: #007bff;
   text-decoration: none;
   font-weight: bold;
+  border: none;
+  background: none;
 }
 
-.edit-btn:hover {
+.save-btn:hover {
   text-decoration: underline;
 }
 
-.delete-btn {
+.revert-btn {
   color: red;
   text-decoration: none;
   font-weight: bold;
 }
 
-.delete-btn:hover {
+.revert-btn:hover {
   text-decoration: underline;
 }
 
@@ -187,39 +189,20 @@ th {
 .custom-modal {
   max-width: 400px;
 }
-.delete-btn {
+.revert-btn {
   color: red;
   text-decoration: none;
   font-weight: bold;
 }
 
-.delete-btn:hover {
+.revert-btn:hover {
   text-decoration: underline;
 }
 
-.addBTN {
-	box-shadow:inset 0px 1px 0px 0px #ffffff;
-	background-color:#1e3b8a;
-	border-radius:7px;
-	border:1px solid #dcdcdc;
-	display:inline-block;
-	cursor:pointer;
-	color: white;
-	font-size:15px;
-	font-weight:bold;
-	padding:15px 24px;
-	text-decoration:none;
-  justify-content: center;
-}
-.addBTN:hover {
-	background-color:#1e3b8a;
-}
-.addBTN:active {
-	position:relative;
-	top:1px;
+input[type="text"], input[type="email"], input[type="password"] {
+  width: 150px;
 }
 
-.center-btn-ADD {
-  text-align: center;
-  margin-top: 20px;
+#registration-form input[type="text"], input[type="email"], input[type="password"] {
+  width: 300px;
 }

@@ -3,22 +3,9 @@ session_start();
 include("../database/connection.php");
 /** @var mysqli $conn */
 
-$username = $_SESSION['username'];
-
-// Get user's voting status and role
-$sqlVoted = "SELECT hasVoted, role FROM user_information WHERE username = ?";
-$stmt = $conn->prepare($sqlVoted);
-$stmt->bind_param("s", $username);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($userRow = $result->fetch_assoc()) {
-  $hasVoted = $userRow['hasVoted'];
-  $role = $userRow['role'];
-} else {
-  echo "User not Found";
-  exit;
-}
+$admin_id = $_SESSION['admin_id'] ;
+$admin_email = $_SESSION['admin_email'];
+$admin_username = $_SESSION['admin_username'] ;
 
 // Get total voters, votes cast, and votes remaining
 $sql = "SELECT
@@ -94,14 +81,20 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
     <!-- sidebar -->
     <aside class="sidebar">
       <h2 class="logo">VotingSys</h2>
-      <h3 class="logo">Admnistrator</h3>
+      <h3 class="logo">Administrator</h3>
       <nav>
         <a href="#" class="active">Dashboard</a>
         <a href="./partylist_maintenance.php">Partylist Maintenance</a>
         <a href="./position_maintenance.php">Position Maintenance</a>
+<<<<<<< HEAD
         <a href="./partylist_maintenance.php">Candidate Maintenance</a>
         <a href="./voters_maintenance.php">Voters Maintenance</a>
         <a href="./logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+=======
+        <a href="./add-candidates.php">Candidate Maintenance</a>
+        <a href="./voters_maintenance.php">Voters Maintenance</a>
+        <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+>>>>>>> main
       </nav>
     </aside>
 
@@ -110,7 +103,7 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
 
 
       <header class="topbar">
-        <h1>Welcome, <?php echo $username ?></h1>
+        <h1>Welcome, <?php echo $admin_username ?></h1>
       </header>
 
       <section class="cards">
@@ -185,12 +178,11 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a href="./logout.php" class="btn btn-primary">Yes, Logout</a>
+              <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
             </div>
           </div>
         </div>
       </div>
-
     </main>
   </div>
 </body>

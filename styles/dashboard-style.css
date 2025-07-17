@@ -8,7 +8,7 @@
 }
 
 body {
-  background: #f1f5f9;
+  background-color: #f1f5f9;
   color: #333;
 }
 
@@ -25,12 +25,9 @@ body {
   padding: 30px 20px;
 }
 
-.sidebar h2 {
-  font-size: 24px;
-}
-
 .logo {
-  font-size: 20px;
+  font-size: 24px;
+  font-weight: bold;
   margin-bottom: 30px;
 }
 

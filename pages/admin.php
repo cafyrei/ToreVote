@@ -10,7 +10,7 @@ if (isset($_POST['btnLogin'])) {
   $email = $_POST['email'];
   $pass = $_POST['password'];
 
-  $sql = "SELECT admin_id, admin_email, admin_password FROM admin_db WHERE admin_email = ?";
+  $sql = "SELECT admin_id, admin_email, admin_password, admin_username FROM admin_db WHERE admin_email = ?";
 
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $email);
@@ -18,21 +18,18 @@ if (isset($_POST['btnLogin'])) {
   $result = $stmt->get_result();
   $row = $result->fetch_assoc();
 
-  var_dump($row);
-
   $plain = "admin123";
   $hash = '$2y$10$W9ZmVEfzfWQqA83KDYxPIeHE1QUSYHxt3hQmWl0XGe5MYu1MZAjAq';
 
   if (password_verify($plain, $hash)) {
     echo "Password is correct!";
-  } else {
-    echo "Wrong password.";
   }
 
 
   if ($row && password_verify($pass, $row['admin_password'])) {
     $_SESSION['admin_id'] = $row['admin_id'];
     $_SESSION['admin_email'] = $row['admin_email'];
+    $_SESSION['admin_username'] = $row['admin_username'];
 
     header('Location: dashboard.php');
     exit();
