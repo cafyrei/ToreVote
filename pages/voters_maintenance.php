@@ -70,7 +70,7 @@ while ($result = $results->fetch_assoc()) {
         <h1>Voters' Maintenance</h1>
         <hr style="margin: 10px 0; border-top: 4px solid #1e3a8a;" />
       </header>
-      <form method="POST" class="add-form" id="addPositionForm">
+      <form method="POST" class="add-form mt-4" id="addPositionForm">
         <input type="text" name="search" id="position_name" placeholder="Search Voter's First Name" required />
         <button type="submit" class="btn btn-primary">Search</button>
       </form>

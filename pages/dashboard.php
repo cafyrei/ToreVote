@@ -85,7 +85,7 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
         <a href="#" class="active">Dashboard</a>
         <a href="./partylist_maintenance.php">Partylist Maintenance</a>
         <a href="./position_maintenance.php">Position Maintenance</a>
-        <a href="./partylist_maintenance.php">Candidate Maintenance</a>
+        <a href="./add-candidates.php">Candidate Maintenance</a>
         <a href="./voters_maintenance.php">Voters Maintenance</a>
         <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>

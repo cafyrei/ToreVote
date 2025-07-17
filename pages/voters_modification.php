@@ -57,14 +57,14 @@ if (isset($_POST['save'])) {
     <aside class="sidebar">
       <h2 class="logo">VotingSys</h2>
       <h3 class="logo">Administrator</h3>
-      <nav>
-        <a href="./dashboard.php">Dashboard</a>
-        <a href="#">Partylist Maintenance</a>
-        <a href="#">Position Maintenance</a>
-        <a href="#">Candidate Maintenance</a>
-        <a href="#" class="active">Voters Maintenance</a>
-        <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
-      </nav>
+        <nav>
+                <a href="./dashboard.php">Dashboard</a>
+                <a href="./partylist_maintenance.php">Partylist Maintenance</a>
+                <a href="./position_maintenance.php">Position Maintenance</a>
+                <a href="./add-candidates.php">Candidate Maintenance</a>
+                <a href="./voters_maintenance.php" class="active">Voters Maintenance</a>
+                <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+            </nav>
     </aside>
 
     <!-- main -->

@@ -118,8 +118,16 @@ if (isset($_GET['delete'])) {
                 </thead>
                 <tbody>
                     <?php
-                    $result = $conn->query("SELECT * FROM positions 
-                    ORDER BY FIELD(position_name, 'President', 'Vice President', 'Secretary', 'Treasurer', 'Auditor'), position_id ASC");
+                    $result = $conn->query("SELECT DISTINCT * FROM positions ORDER BY
+                    CASE position_name
+                        WHEN 'President' THEN 1
+                        WHEN 'Vice President' THEN 2
+                        WHEN 'Secretary' THEN 3
+                        WHEN 'Treasurer' THEN 4
+                        WHEN 'Auditor' THEN 5
+                        WHEN 'PRO' THEN 6
+                        ELSE 7
+                    END;");
 
                     while ($row = $result->fetch_assoc()) {
                         echo "<tr>
