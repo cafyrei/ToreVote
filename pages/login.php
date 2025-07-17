@@ -19,12 +19,10 @@ if (isset($_POST['btnLogin'])) {
   $row = $result->fetch_assoc();
 
   if ($row && password_verify($pass, $row['password'])) {
-    $_SESSION['email'] = $row['email'];
     $_SESSION['username'] = $row['username'];
-    $_SESSION['hasVoted'] = $row['hasVoted'];
+    $_SESSION['email'] = $row['email'];
     $_SESSION['id_number'] = $row['id_number'];
-    echo $_SESSION['id_number'];
-    header('Location: dashboard.php');
+    header('Location: vote.php');
     exit();
   } else {
     $login_err = "Invalid Email or Password";
@@ -44,14 +42,14 @@ if (isset($_POST['btnLogin'])) {
 
 <body>
   <div class="login-container">
-    <h2>Login</h2>
+    <h2>Student Login</h2>
     <form action="#" method="post">
       <?php if (!empty($login_err)): ?>
         <p class="error"><?= $login_err ?></p>
       <?php endif; ?>
 
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" required />
+      <input type="email" id="email" name="email" required placeholder="Ex. 2023XXXXX"/>
 
       <label for="password">Password</label>
       <input type="password" id="password" name="password" required />

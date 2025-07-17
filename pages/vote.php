@@ -2,6 +2,21 @@
 session_start();
 include("../database/connection.php");
 /** @var mysqli $conn */
+
+$username = $_SESSION['username'];
+
+$sqlVoted = "SELECT hasVoted FROM user_information WHERE username = ?";
+$stmt = $conn->prepare($sqlVoted);
+$stmt->bind_param("s", $username);
+$stmt->execute();
+
+$result = $stmt->get_result();
+if ($userRow = $result->fetch_assoc()){
+  $hasVoted = $userRow['hasVoted'];
+} else {
+  echo "User not Found";
+  exit;
+}
 ?>
 
 <!DOCTYPE html>
@@ -23,14 +38,13 @@ include("../database/connection.php");
     <aside class="sidebar">
       <h2 class="logo">VotingSys</h2>
       <nav>
-        <a href="./dashboard.php">Dashboard</a>
-        <a href="./vote.php" class="active">Vote</a>
         <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
 
     </aside>
     <!-- main -->
     <main class="main-content">
+      <?php if (!$hasVoted) { ?>
       <header class="topbar">
         <h1>Cast Your Vote</h1>
         <p>Select your preferred candidate for each position.</p>
@@ -93,6 +107,12 @@ include("../database/connection.php");
           <button type="submit" class="vote-btn">Submit Vote</button>
         </div>
       </form>
+      <?php } else { ?>
+        <header class="topbar">
+        <h1>You Have Already Casted Your Vote</h1>
+        <p>Thank you for casting your vote and helping keep the election fair and honest.</p>
+      </header>
+      <?php } ?>
     </main>
   </div>
 

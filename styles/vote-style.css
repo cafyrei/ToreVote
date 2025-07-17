@@ -54,13 +54,18 @@ body {
 
 .topbar h1 {
   color: #1e293b;
-  font-size: 28px;
+  font-size: 50px;
   margin-bottom: 10px;
+  justify-content: center;
+  display: flex;
 }
 
 .topbar p {
   color: #475569;
-  margin-bottom: 30px;
+  font-size: 20px;
+  margin-bottom: 40px;
+  justify-content: center;
+  display: flex;
 }
 
 /* Vote Section */

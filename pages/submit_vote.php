@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   $setVoted->close();
 
   // ✅ Redirect to results
-  header("Location: dashboard.php");
+  header("Location: vote.php");
   exit();
 
 ?>
