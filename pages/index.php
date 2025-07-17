@@ -19,10 +19,10 @@ if (isset($_POST['btnLogin'])) {
   $row = $result->fetch_assoc();
 
   if ($row && password_verify($pass, $row['password'])) {
-    $_SESSION['username'] = $row['username'];
     $_SESSION['email'] = $row['email'];
-    $_SESSION['id_number'] = $row['id_number'];
-    header('Location: vote.php');
+    $_SESSION['username'] = $row['username'];
+    $_SESSION['hasVoted'] = $row['hasVoted'];
+    header('Location: dashboard.php');
     exit();
   } else {
     $login_err = "Invalid Email or Password";
@@ -41,15 +41,26 @@ if (isset($_POST['btnLogin'])) {
 </head>
 
 <body>
+
+  <div class="video-background">
+    <video autoplay muted loop playsinline>
+      <source src="../img/white_wave.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
   <div class="login-container">
-    <h2>Student Login</h2>
+    <div class="img-container">
+      <img src="../img/user_logo.png" alt="Voting Logo">
+    </div>
+    <h2>User Login</h2>
     <form action="#" method="post">
       <?php if (!empty($login_err)): ?>
         <p class="error"><?= $login_err ?></p>
       <?php endif; ?>
 
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" required placeholder="Ex. 2023XXXXX"/>
+      <input type="email" id="email" name="email" required />
 
       <label for="password">Password</label>
       <input type="password" id="password" name="password" required />

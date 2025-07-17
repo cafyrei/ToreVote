@@ -3,10 +3,10 @@ session_start();
 include("../database/connection.php");
 /** @var mysqli $conn */
 
-if (!isset($_SESSION['email'])) {
-  header('location: index.php');
-  exit();
-}
+// if (!isset($_SESSION['email'])) {
+//   header('location: index.php');
+//   exit();
+// }
 
 $username = $_SESSION['username'];
 
@@ -110,7 +110,7 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
         <a href="#">Partylist Maintenance</a>
         <a href="#">Position Maintenance</a>
         <a href="#">Candidate Maintenance</a>
-        <a href="#">Voters Maintenance</a>
+        <a href="./voters_maintenance.php">Voters Maintenance</a>
         <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
     </aside>
@@ -213,8 +213,5 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
 
     </main>
   </div>
-
-
 </body>
-
 </html>
