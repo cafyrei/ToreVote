@@ -132,7 +132,7 @@ th {
   color: white;
 }
 
-.edit-btn {
+.save-btn {
   color: #007bff;
   text-decoration: none;
   font-weight: bold;
@@ -140,17 +140,17 @@ th {
   background: none;
 }
 
-.edit-btn:hover {
+.save-btn:hover {
   text-decoration: underline;
 }
 
-.delete-btn {
+.revert-btn {
   color: red;
   text-decoration: none;
   font-weight: bold;
 }
 
-.delete-btn:hover {
+.revert-btn:hover {
   text-decoration: underline;
 }
 
@@ -189,13 +189,13 @@ th {
 .custom-modal {
   max-width: 400px;
 }
-.delete-btn {
+.revert-btn {
   color: red;
   text-decoration: none;
   font-weight: bold;
 }
 
-.delete-btn:hover {
+.revert-btn:hover {
   text-decoration: underline;
 }
 

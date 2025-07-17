@@ -102,8 +102,8 @@ if (isset($_POST['add'])) {
 
           </div>
         </div>
-
-        <div class="input-group full-width">
+        <div class="row">
+          <div class="input-group full-width">
           <?php if (!empty($errors['username'])): ?>
             <p class="error"><?= $errors['username'] ?></p>
           <?php endif; ?>
@@ -117,6 +117,7 @@ if (isset($_POST['add'])) {
           <?php endif; ?>
           <label for="email">Email</label>
           <input type="email" id="email" name="email" required/>
+        </div>
         </div>
 
         <div class="row">

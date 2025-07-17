@@ -8,7 +8,6 @@ if (isset($_GET['delete'])) {
     $deleteStmt = $conn->prepare("DELETE FROM user_information WHERE id_number = ?");
     $deleteStmt->bind_param("i", $id);
     $deleteStmt->execute();
-    
     header("Location: voters_maintenance.php");
     exit();
 }
@@ -45,7 +44,6 @@ while ($result = $results->fetch_assoc()) {
   <link rel="stylesheet" href="../styles/results-style.css" />
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -60,7 +58,7 @@ while ($result = $results->fetch_assoc()) {
         <a href="#">Position Maintenance</a>
         <a href="#">Candidate Maintenance</a>
         <a href="#" class="active">Voters Maintenance</a>
-        <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+        <a href="#" class="logout-button" data-toggle="modal" data-target="#logoutModal">Logout</a>
       </nav>
     </aside>
 
@@ -103,23 +101,21 @@ while ($result = $results->fetch_assoc()) {
                 <td><?=$row['date_created']?></td>
                 <td>
                 <a href='voters_modification.php?edit=<?= $row['id_number'] ?>' class='edit-btn'>Modify</a> |
-                <a href="#" 
-   class="delete-btn" 
-   data-id="<?= $row['id_number'] ?>" 
-   data-toggle="modal" 
-   data-target="#deleteModal">Delete</a>
+                <a href="#"class="delete-btn" data-id="<?= $row['id_number'] ?>" data-toggle="modal" data-target="#deleteModal">Delete</a>
 
 
                 </td>
             </tr>
         <?php } ?>
       </table>
-      <div class="center-btn-ADD"><a href="./voters_addition.php" class="addBTN">Add Voter</a></div>
+      
       <?php if (isset($_POST['search'])) {
                 if ($results->num_rows === 0) {
                         echo '<h1 class="center-text">No Results Found</h1>';
                 }
                 echo '<div class="center-button"><a href="./voters_maintenance.php" class="myButton">Go Back</a></div>';
+                } else {
+                  echo '<div class="center-btn-ADD"><a href="./voters_addition.php" class="addBTN">Add Voter</a></div>';
                 }?>
       <!-- Modal -->
        <!-- DELETE MODAL -->
@@ -151,8 +147,8 @@ while ($result = $results->fetch_assoc()) {
               Are you sure you want to logout?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a href="./logout.php" class="btn btn-primary">Yes, Logout</a>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <a href="./logout.php" class="btn btn-danger">Logout</a>
             </div>
           </div>
         </div>
@@ -172,29 +168,10 @@ while ($result = $results->fetch_assoc()) {
     });
   });
 });
-
     </script>
 
-    <script>
-        $('#editModal').on('show.bs.modal', function(event) {
-            const button = $(event.relatedTarget);
-            const id = button.data('id');
-            const name = button.data('name');
-
-            const modal = $(this);
-            modal.find('#edit_partylist_id').val(id);
-            modal.find('#edit_partylist_name').val(name);
-        });
-    </script>
-
-    <!-- jQuery (required by Bootstrap 4) -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-<!-- Popper.js (required for Bootstrap 4 tooltips & modals) -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-
-<!-- Bootstrap 4 JS -->
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
 </body>
 </html>

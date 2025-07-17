@@ -61,7 +61,7 @@ if (isset($_POST['save'])) {
         <a href="#">Position Maintenance</a>
         <a href="#">Candidate Maintenance</a>
         <a href="#" class="active">Voters Maintenance</a>
-        <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+        <a href="#" class="logout-button" data-toggle="modal" data-target="#logoutModal">Logout</a>
       </nav>
     </aside>
 
@@ -100,15 +100,51 @@ if (isset($_POST['save'])) {
                     </select>
                 </td>
                 <td>
-                <button type="submit" name="save" class='edit-btn'>Save</button> |
-                <a href='voters_maintenance.php' class='delete-btn text-danger' onclick='return confirm("Not save changes?")'>Revert</a>
+                <a href="#" class="save-btn" data-toggle="modal" data-target="#saveModal">Save</a> |
+                <a href="#" class="revert-btn" data-id="<?=$result['id_number']?>" data-toggle="modal" data-target="#revertModal">Revert</a>
 
                 </td>
             </tr>
       </table>
+
+      <!-- SAVE MODAL -->
+      <div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="saveModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirm Save</h5>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to save current changes?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" href="./voters_maintenance.php" name='save'  class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
       </form>
       <!-- Modal -->
-      <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+       <!-- REVERT MODAL -->
+        <div class="modal fade" id="revertModal" tabindex="-1" role="dialog" aria-labelledby="revertModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Revert Changes</h5>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to revert changes?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <a id="confirmRevertBtn" href="./voters_maintenance.php" class="btn btn-danger">Revert</a>
+      </div>
+    </div>
+  </div>
+</div>
+       <!-- LOGOUT MODAL -->
+      <      <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -118,13 +154,33 @@ if (isset($_POST['save'])) {
               Are you sure you want to logout?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a href="./logout.php" class="btn btn-primary">Yes, Logout</a>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <a href="./logout.php" class="btn btn-danger">Logout</a>
             </div>
           </div>
         </div>
       </div>
     </main>
   </div>
+ <script>
+
+  document.addEventListener("DOMContentLoaded", function () {
+  const confirmSaveBtn = document.getElementById("confirmSaveBtn");
+  const confirmRevertBtn = document.getElementById("confirmRevertBtn");
+
+  const revertButtons = document.querySelectorAll(".revert-btn");
+  revertButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      const id = this.getAttribute("data-id");
+      confirmRevertBtn.setAttribute("href", "?revert=" + id);
+    });
+  });
+});
+
+    </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

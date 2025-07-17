@@ -79,6 +79,10 @@ select {
   transition: 0.2s ease;
 }
 
+select {
+  width: 300px;
+}
+
 input:focus,
 select:focus {
   outline: none;
