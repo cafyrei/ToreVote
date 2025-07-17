@@ -69,9 +69,10 @@ if (isset($_GET['delete'])) {
     <main class="main-content">
       <header class="topbar">
         <h1>Voters' Maintenance</h1>
+        <hr style="margin: 10px 0; border-top: 4px solid #1e3a8a;" />
       </header>
     <form method="POST" class="add-form" id="addPositionForm">
-        <input type="text" name="search" id="voter_name" placeholder="Search Voter's First Name" required />
+        <input type="text" name="search" id="position_name" placeholder="Search Voter's First Name" required />
         <button type="submit" class="btn btn-primary">Search</button>
     </form>
 
@@ -99,11 +100,10 @@ if (isset($_GET['delete'])) {
                 <td><?=$row['email']?></td>
                 <td><?=$row['username']?></td>
                 <td><?=$row['password'] = substr($row['password'], 0, 11)?></td>
-                <td><span class="<?= $row['hasVoted'] ? 'text-success' : 'text-danger' ?>">
-                    <?= $row['hasVoted'] ? 'Voted' : 'Not Voted' ?></span></td>
+                <td><span class="<?= $row['hasVoted'] ? 'text-success' : 'text-danger' ?>"><?= $row['hasVoted'] ? 'Voted' : 'Not Voted' ?></span></td>
                 <td><?=$row['date_created']?></td>
                 <td>
-                <a href='?edit=<?= $row['id_number'] ?>' class='edit-btn'>Modify</a> |
+                <a href='voters_modification.php?edit=<?= $row['id_number'] ?>' class='edit-btn'>Modify</a> |
                 <a href='?delete=<?= $row['id_number'] ?>' class='delete-btn text-danger' onclick='return confirm("Are you sure you want to delete this voter?")'>Delete</a>
 
                 </td>
