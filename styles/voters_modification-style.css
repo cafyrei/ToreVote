@@ -199,6 +199,10 @@ th {
   text-decoration: underline;
 }
 
-input[type="text"] {
-  width: 100px;
+input[type="text"], input[type="email"], input[type="password"] {
+  width: 150px;
+}
+
+#registration-form input[type="text"], input[type="email"], input[type="password"] {
+  width: 300px;
 }

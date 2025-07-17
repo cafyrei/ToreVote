@@ -110,6 +110,7 @@ if (isset($_GET['delete'])) {
             </tr>
         <?php } ?>
       </table>
+      <div class="center-btn-ADD"><a href="./voters_addition.php" class="addBTN">Add Voter</a></div>
       <?php if (isset($_POST['search'])) {
                 if ($results->num_rows === 0) {
                         echo '<h1 class="center-text">No Results Found</h1>';

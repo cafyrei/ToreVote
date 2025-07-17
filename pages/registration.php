@@ -180,12 +180,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php if (!empty($success_msg)): ?>
           <p class="success"><?= $success_msg ?></p>
         <?php endif; ?>
-
-
-        
-
       </form>
-
     </div>
   </div>
 </body>
