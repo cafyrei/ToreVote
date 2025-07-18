@@ -235,9 +235,7 @@ if (isset($_GET['delete'])) {
 
     <!-- END OF MODAL SECTION -->
 
-
     <!-- JAVA SCRIPT SECTION -->
-    <!-- DELETE BUTTON LOGIC -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const deleteButtons = document.querySelectorAll(".delete-btn");
@@ -252,7 +250,6 @@ if (isset($_GET['delete'])) {
         });
     </script>
 
-    <!-- EDIT MODAL SETUP -->
     <script>
         const editModal = document.getElementById('editModal');
         editModal.addEventListener('show.bs.modal', function(event) {
