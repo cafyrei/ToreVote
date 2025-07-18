@@ -44,7 +44,7 @@ if (isset($_POST['save'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Update Candidate</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../styles/voters_modification-style.css" />
+  <link rel="stylesheet" href="../styles/candidate_modification-style.css" />
   <link rel="shortcut icon" href="../img/ToreVote.png" type="image/x-icon">
 </head>
 
@@ -57,8 +57,8 @@ if (isset($_POST['save'])) {
         <a href="./dashboard.php">Dashboard</a>
         <a href="./partylist_maintenance.php">Partylist Maintenance</a>
         <a href="./position_maintenance.php">Position Maintenance</a>
-        <a href="./candidates_maintenance.php">Candidate Maintenance</a>
-        <a href="./voters_maintenance.php" class="active">Voters Maintenance</a>
+        <a href="./candidates_maintenance.php" class="active">Candidate Maintenance</a>
+        <a href="./voters_maintenance.php" >Voters Maintenance</a>
         <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
     </aside>
@@ -86,8 +86,8 @@ if (isset($_POST['save'])) {
             </td>
 
             <td>
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal">Save</button>
-              <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#revertModal">Revert</button>
+              <button type="button" class="save-btn" data-bs-toggle="modal" data-bs-target="#saveModal">Save</button> |
+              <button type="button" class="revert-btn" data-bs-toggle="modal" data-bs-target="#revertModal">Revert</button>
             </td>
           </tr>
         </table>
