@@ -45,6 +45,7 @@ while ($result = $results->fetch_assoc()) {
   <link rel="stylesheet" href="../styles/voters_maintenance-style.css" />
   <link rel="stylesheet" href="../styles/results-style.css"/>
   <link rel="shortcut icon" href="../img/ToreVote.png" type="image/x-icon">
+  <a href="./clear-db.php">Clear Database</a>
 </head>
 
 <body>
