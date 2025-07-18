@@ -43,7 +43,7 @@ while ($result = $results->fetch_assoc()) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="../styles/voters_maintenance-style.css" />
-  <link rel="stylesheet" href="../styles/results-style.css"/>
+  <link rel="stylesheet" href="../styles/results-style.css" />
   <link rel="shortcut icon" href="../img/ToreVote.png" type="image/x-icon">
 </head>
 
@@ -57,7 +57,7 @@ while ($result = $results->fetch_assoc()) {
         <a href="./dashboard.php">Dashboard</a>
         <a href="./partylist_maintenance.php">Partylist Maintenance</a>
         <a href="./position_maintenance.php">Position Maintenance</a>
-        <a href="#" class="active" >Candidate Maintenance</a>
+        <a href="#" class="active">Candidate Maintenance</a>
         <a href="./voters_maintenance.php">Voters Maintenance</a>
         <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>
@@ -91,7 +91,9 @@ while ($result = $results->fetch_assoc()) {
             <td><?= $row['candidate_name'] ?></td>
             <td><?= $row['position'] ?></td>
             <td><?= $row['platform'] ?></td>
-            <td><?= $row['photo'] ?></td>
+            <td>
+              <img src="../img/<?= htmlspecialchars($row['photo']) ?>" width="60" height="60" style="object-fit: cover; border-radius: 5px;" alt="Candidate Photo">
+            </td>
             <td><?= $row['vote_count'] ?></td>
             <td><?= $row['date_created'] ?></td>
             <td>
@@ -166,4 +168,5 @@ while ($result = $results->fetch_assoc()) {
       <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
