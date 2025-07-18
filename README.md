@@ -26,6 +26,8 @@ Built to facilitate student elections or similar voting scenarios with a user-fr
 | 202376954@fit.edu.ph     |    123   |
 
 ---
+## 🖊️ NOTE
+- The Database file can be found on the File itself
 
 ## ✅ Features
 
@@ -51,3 +53,13 @@ Built to facilitate student elections or similar voting scenarios with a user-fr
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/cafyrei/VotingSys.git
+2. **Import the Database to myphpadmin**
+   ```bash
+   import votingsysdb.sql
+
+## 👨‍💻 Developers
+
+- **Rafhielle Allen Alcabaza**
+- **Sean Paul Nieves**
+- **Rovic Christopher Sarthou**
+- **Breindelle Vincent Ayuso**

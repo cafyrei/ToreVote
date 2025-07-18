@@ -34,6 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
   }
 
+  if (!isset($errors['email']) && !str_ends_with($fields['email'], '@fit.edu.ph')) {
+    $errors['email'] = "Email must end with @fit.edu.ph";
+  }
+
   if (!isset($errors['password']) && !isset($errors['confirm_password'])) {
     if ($fields['password'] !== $fields['confirm_password']) {
       $errors['confirm_password'] = "Passwords do not match.";
@@ -43,11 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   if (!$errors) {
     $stmt = $conn->prepare("INSERT INTO `user_information`(`first_name`, `last_name`, `middle_name`, `gender`, `email`, `username`, `password`, `role`, `hasVoted`, `date_created`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())");
-    
+
     $admin_emails = ['admin@votingsys.com', 'admin@VTsyssite.com'];
     $role = in_array($fields['email'], $admin_emails) ? 'admin' : 'user';
 
-    
+
 
     $stmt->bind_param(
       "sssssssss",
