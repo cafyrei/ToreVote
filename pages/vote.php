@@ -77,9 +77,9 @@ if ($userRow = $result->fetch_assoc()) {
             echo "<h2 class='position-title'>" . htmlspecialchars($position) . "</h2>";
             echo "<div class='candidate-list'>";
 
-            $stmt = $conn->prepare("SELECT c.*, p.partylist_name 
-                        FROM candidates c 
-                        LEFT JOIN party_list p ON c.partylist = p.partylist_id 
+            $stmt = $conn->prepare("SELECT c.*, p.partylist_name
+                        FROM candidates c
+                        LEFT JOIN party_list p ON c.partylist = p.partylist_id
                         WHERE c.position = ?");
             $stmt->bind_param("s", $position);
             $stmt->execute();

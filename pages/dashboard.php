@@ -30,7 +30,6 @@ $sql = "SELECT position
         ORDER BY
           CASE position
             WHEN 'President' THEN 1
-            WHEN 'President' THEN 1
             WHEN 'Vice President' THEN 2
             WHEN 'Secretary' THEN 3
             WHEN 'Treasurer' THEN 4

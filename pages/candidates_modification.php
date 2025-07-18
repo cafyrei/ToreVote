@@ -63,89 +63,103 @@ if (isset($_POST['save'])) {
       </nav>
     </aside>
 
-    <main class="main-content">
-      <header class="topbar">
-        <h1>Update Candidate's Information</h1>
+    <main class="main-content p-4">
+      <header class="topbar mb-4">
+        <h1 class="text-dark">Update Candidate's Information</h1>
       </header>
-      <form method="POST" enctype="multipart/form-data">
-        <table class="table">
-          <tr>
-            <th>ID</th>
-            <th>Candidate Name</th>
-            <th>Platform</th>
-            <th>Photo</th>
-            <th>Action</th>
-          </tr>
-          <tr>
-            <td><?= $result['id_num'] ?></td>
-            <td><input type="text" name="candidate_name" class="form-control" value="<?= htmlspecialchars($result['candidate_name']) ?>"></td>
-            <td><input type="text" name="platform" class="form-control" value="<?= htmlspecialchars(string: $result['platform']) ?>"></td>
-            <td>
-              <input type="file" name="candidate_image" id="candidate_image" class="d-none" accept="image/*">
-              <button type="button" class="btn btn-outline-primary" onclick="document.getElementById('candidate_image').click()">Modify Photo</button>
-            </td>
 
-            <td>
-              <button type="button" class="save-btn" data-bs-toggle="modal" data-bs-target="#saveModal">Save</button> |
-              <button type="button" class="revert-btn" data-bs-toggle="modal" data-bs-target="#revertModal">Revert</button>
-            </td>
-          </tr>
-        </table>
-
-        <!-- SAVE MODAL -->
-        <div class="modal fade" id="saveModal" tabindex="-1">
-          <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Confirm Save</h5>
-              </div>
-              <div class="modal-body">
-                Are you sure you want to save current changes?
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" name="save" class="btn btn-primary">Save</button>
-              </div>
-            </div>
+      <div class="container d-flex justify-content-center mt-5">
+        <div class="card shadow-lg" style="width: 100%; max-width: 700px;">
+          <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Edit Candidate</h5>
           </div>
-        </div>
-      </form>
+          <form method="POST" enctype="multipart/form-data">
+            <div class="card-body">
+              <div class="mb-3">
+                <label for="candidate_id" class="form-label">ID Number</label>
+                <input type="text" class="form-control" id="candidate_id" value="<?= $result['id_num'] ?>" disabled>
+              </div>
 
-      <!-- REVERT MODAL -->
-      <div class="modal fade" id="revertModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Revert Changes</h5>
+              <div class="mb-3">
+                <label for="candidate_name" class="form-label">Candidate Name</label>
+                <input type="text" class="form-control" name="candidate_name" id="candidate_name" value="<?= htmlspecialchars($result['candidate_name']) ?>" required>
+              </div>
+
+              <div class="mb-3">
+                <label for="platform" class="form-label">Platform</label>
+                <textarea class="form-control" name="platform" id="platform" rows="3" required><?= htmlspecialchars($result['platform']) ?></textarea>
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label d-block">Photo</label>
+                <input type="file" name="candidate_image" id="candidate_image" class="d-none" accept="image/*">
+                <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('candidate_image').click()">Modify Photo</button>
+              </div>
             </div>
-            <div class="modal-body">
-              Are you sure you want to revert changes?
+
+            <div class="card-footer d-flex justify-content-end gap-2">
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#revertModal">Revert</button>
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#saveModal">Save Changes</button>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a href="./candidates_maintenance.php" class="btn btn-danger">Revert</a>
+
+            <!-- SAVE MODAL -->
+            <div class="modal fade" id="saveModal" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Confirm Save</h5>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to save current changes?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" name="save" class="btn btn-primary">Save</button>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <!-- REVERT MODAL -->
+            <div class="modal fade" id="revertModal" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Revert Changes</h5>
+                  </div>
+                  <div class="modal-body">
+                    Are you sure you want to revert changes?
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="./candidates_maintenance.php" class="btn btn-danger">Revert</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- LOGOUT MODAL -->
+    <div class="modal fade" id="logoutModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirm Logout</h5>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to logout?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
           </div>
         </div>
       </div>
-
-      <!-- LOGOUT MODAL -->
-      <div class="modal fade" id="logoutModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Confirm Logout</h5>
-            </div>
-            <div class="modal-body">
-              Are you sure you want to logout?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
-            </div>
-          </div>
-        </div>
-      </div>
+    </div>
     </main>
   </div>
 

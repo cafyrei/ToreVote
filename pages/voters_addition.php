@@ -121,7 +121,7 @@ if (isset($_POST['add'])) {
           <?php if (!empty($errors['email'])): ?>
             <p class="error"><?= $errors['email'] ?></p>
           <?php endif; ?>
-          <label for="email">Email</label>
+          <label for="email">Student Email</label>
           <input type="email" id="email" name="email" required/>
         </div>
         </div>

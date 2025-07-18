@@ -51,8 +51,8 @@ while ($result = $results->fetch_assoc()) {
   <div class="dashboard">
     <!-- sidebar -->
     <aside class="sidebar">
-      <h2 class="logo">VotingSys</h2>
-      <h3 class="logo">Admnistrator</h3>
+      <img src="../img/logo2.png" alt="VotingSys Logo" style="width: 80px; height: auto; display: block; margin: 0 auto;" />
+      <h5 class="admin" style="margin-top: 20px; text-align: center;">Administrator</h5>
       <nav>
         <a href="./dashboard.php">Dashboard</a>
         <a href="./partylist_maintenance.php">Partylist Maintenance</a>
@@ -99,8 +99,6 @@ while ($result = $results->fetch_assoc()) {
             <td>
               <a href='candidates_modification.php?edit=<?= $row['id_num'] ?>' class='edit-btn'>Modify</a> |
               <a href="#" class="delete-btn" data-id="<?= $row['id_num'] ?>" data-toggle="modal" data-target="#deleteModal">Delete</a>
-
-
             </td>
           </tr>
         <?php } ?>
