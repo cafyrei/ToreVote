@@ -48,6 +48,7 @@ if (isset($_POST['btnLogin'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login Page</title>
   <link rel="stylesheet" href="../styles/admin-style.css">
+  <link rel="shortcut icon" href="../img/ToreVote.png" type="image/x-icon">
 </head>
 
 <body>

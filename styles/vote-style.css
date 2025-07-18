@@ -53,13 +53,17 @@ html, body {
 }
 
 .topbar {
-  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  display: flex;
+  
   padding: 2rem;
   text-align: center;
+}
+
+.vote-casted-elements {
+  height: 100%;
 }
 
 .topbar h1 {
@@ -163,6 +167,24 @@ html, body {
 
 .vote-btn:hover {
   background-color: #2563eb;
+}
+
+.logout-button {
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background-color:#2563eb;
+	border-radius:10px;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	cursor:pointer;
+	color: white;
+	font-size:15px;
+	font-weight:bold;
+	padding:10px 20px;
+	text-decoration:none;
+  justify-content: center;
+}
+.logout-button:hover {
+	background-color:#2563eb;
 }
 
 /* Responsive */

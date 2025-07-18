@@ -39,6 +39,7 @@ if (isset($_POST['add'])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../styles/voters_modification-style.css" />
     <link rel="stylesheet" href="../styles/add_voter-style.css" />
+    <link rel="shortcut icon" href="../img/ToreVote.png" type="image/x-icon">
 </head>
 
 <body>

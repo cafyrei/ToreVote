@@ -94,6 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="../styles/regis-style.css" />
   <title>Sign Up | Voting System</title>
+  <link rel="shortcut icon" href="../img/ToreVote.png" type="image/x-icon">
 </head>
 
 <body>

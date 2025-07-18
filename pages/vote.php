@@ -35,17 +35,11 @@ if ($userRow = $result->fetch_assoc()) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="../styles/vote-style.css" />
+  <link rel="shortcut icon" href="../img/ToreVote.png" type="image/x-icon">
 </head>
 
 <body>
   <div class="dashboard">
-    <!-- sidebar -->
-    <aside class="sidebar">
-      <h2 class="logo">VotingSys</h2>
-      <nav>
-        <a href="#" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
-      </nav>
-    </aside>
 
     <!-- main -->
     <main class="main-content">
@@ -110,6 +104,7 @@ if ($userRow = $result->fetch_assoc()) {
         <header class="topbar vote-casted-elements">
           <h1>You Have Already Casted Your Vote</h1>
           <p>Thank you for casting your vote and helping keep the election fair and honest.</p>
+          <button class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</button>
         </header>
       <?php } ?>
     </main>
