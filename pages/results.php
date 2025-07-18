@@ -1,8 +1,11 @@
 <?php
 include("../database/connection.php");
 
-$sql = "SELECT position FROM candidates GROUP BY position";
+$sql = "SELECT DISTINCT position FROM candidates ORDER BY CASE position WHEN 'President' THEN 1 WHEN 'Vice President' THEN 2 WHEN 'Secretary' THEN 3 WHEN 'Treasurer' THEN 4 WHEN 'Auditor' THEN 5 WHEN 'PRO' THEN 6 ELSE 99 END";
 $position_result = mysqli_query($conn, $sql);
+
+$sql = "SELECT DISTINCT partylist_name FROM party_list";
+$partylist_result = mysqli_query($conn, $sql);
 
 $results_sections = [];
 
@@ -10,6 +13,7 @@ while ($position_row = mysqli_fetch_assoc($position_result)) {
   $position = $position_row['position'];
 
   $candidates_sql = "SELECT * FROM candidates WHERE position = '$position'";
+  $candidates_sql = "SELECT * FROM party_list WHERE position = '$position'";
   $candidates_result = mysqli_query($conn, $candidates_sql);
 
   $total_votes = 0;

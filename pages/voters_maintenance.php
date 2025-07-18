@@ -51,8 +51,8 @@ while ($result = $results->fetch_assoc()) {
   <div class="dashboard">
     <!-- sidebar -->
     <aside class="sidebar">
-      <h2 class="logo">VotingSys</h2>
-      <h3 class="logo">Admnistrator</h3>
+      <img src="../img/logo2.png" alt="VotingSys Logo" style="width: 80px; height: auto; display: block; margin: 0 auto;" />
+      <h5 class="admin" style="margin-top: 20px; text-align: center;">Administrator</h5>
       <nav>
         <a href="./dashboard.php">Dashboard</a>
         <a href="./partylist_maintenance.php">Partylist Maintenance</a>
@@ -66,7 +66,7 @@ while ($result = $results->fetch_assoc()) {
     <!-- main -->
     <main class="main-content">
       <header class="topbar">
-        <h1>Voters' Maintenance</h1>
+        <h1 style="font-size: 40px;">Voters' Maintenance</h1>
         <hr style="margin: 10px 0; border-top: 4px solid #1e3a8a;" />
       </header>
       <form method="POST" class="add-form mt-4" id="addPositionForm">

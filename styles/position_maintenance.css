@@ -24,13 +24,11 @@ body {
   padding: 30px 20px;
 }
 
-.sidebar h2 {
-  font-size: 24px;
-}
-
-.logo {
-  font-size: 20px;
-  margin-bottom: 30px;
+.logo-image {
+  width: 150px;
+  height: auto;
+  margin-bottom: 20px;
+  display: block;
 }
 
 .sidebar nav a {
@@ -61,18 +59,17 @@ body {
   }
 }
 
-.h1{
-    text-align: center;
-}
+
 .main-content {
   padding: 30px;
   flex: 1;
+
 }
 
-h1 {
+html .h1 {
   font-size: 28px;
+  color: #000;
   margin-bottom: 20px;
-  color: #1e3a8a;
 }
 
 .add-form, .edit-form {
