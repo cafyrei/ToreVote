@@ -63,7 +63,7 @@ if (isset($_GET['delete'])) {
     <title>Position Maintenance</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../styles/position_maintenance.css" />
-    
+
 </head>
 
 <body>
@@ -212,13 +212,12 @@ if (isset($_GET['delete'])) {
             </div>
         </div>
     </div>
-    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            // Handle Edit Buttons
             const editButtons = document.querySelectorAll(".edit-btn");
-
             editButtons.forEach(button => {
                 button.addEventListener("click", function() {
                     const id = this.getAttribute("data-id");
@@ -228,8 +227,21 @@ if (isset($_GET['delete'])) {
                     document.getElementById("edit_position_name").value = name;
                 });
             });
+
+            // Handle Delete Buttons
+            const deleteButtons = document.querySelectorAll(".delete-btn");
+            const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+
+            deleteButtons.forEach(button => {
+                button.addEventListener("click", function() {
+                    const id = this.getAttribute("data-id");
+                    confirmDeleteBtn.href = `position_maintenance.php?delete=${id}`;
+                });
+            });
         });
     </script>
+
+
 
 </body>
 

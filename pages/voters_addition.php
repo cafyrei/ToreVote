@@ -36,7 +36,7 @@ if (isset($_POST['add'])) {
 
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>\
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="../styles/voters_modification-style.css" />
     <link rel="stylesheet" href="../styles/add_voter-style.css" />
 </head>
@@ -140,9 +140,9 @@ if (isset($_POST['add'])) {
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+              <h5 class="modal-title" id="logoutModalLabel" style="color: black">Confirm Logout</h5>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" style="color: black">
               Are you sure you want to logout?
             </div>
             <div class="modal-footer">
