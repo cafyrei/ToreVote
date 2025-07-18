@@ -96,8 +96,25 @@ if ($userRow = $result->fetch_assoc()) {
           }
           ?>
           <div class="submit-container">
-            <button type="submit" class="vote-btn">Submit Vote</button>
+            <button type="button" class="logout-button" data-bs-toggle="modal" data-bs-target="#voteModal">Submit</button>
           </div>
+
+      <div class="modal fade" id="voteModal" tabindex="-1" aria-labelledby="voteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="voteModalLabel">Confirm Vote</h5>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to finalize and submit your votes?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary" form="vote-form">Yes, I Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
         </form>
 
       <?php } else { ?>
@@ -110,6 +127,7 @@ if ($userRow = $result->fetch_assoc()) {
     </main>
   </div>
 
+  <!-- Confirm Vote Modal -->
   <!-- Logout Modal -->
   <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
