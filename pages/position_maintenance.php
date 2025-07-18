@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update_position'])) {
         $stmt = $conn->prepare("UPDATE positions SET position_name = ? WHERE position_id = ?");
         $stmt->bind_param("si", $newName, $id);
         $stmt->execute();
-        header("Location: PositionMaintenance.php");
+        header("Location: position_maintenance.php");
         exit();
     }
 }
@@ -61,12 +61,9 @@ if (isset($_GET['delete'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Position Maintenance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../styles/position_maintenance.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+    
 </head>
 
 <body>
@@ -77,7 +74,7 @@ if (isset($_GET['delete'])) {
             <nav>
                 <a href="./dashboard.php">Dashboard</a>
                 <a href="./partylist_maintenance.php">Partylist Maintenance</a>
-                <a href="./position_maintenance.php"  class="active">Position Maintenance</a>
+                <a href="./position_maintenance.php" class="active">Position Maintenance</a>
                 <a href="./add-candidates.php">Candidate Maintenance</a>
                 <a href="./voters_maintenance.php">Voters Maintenance</a>
                 <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
@@ -126,7 +123,7 @@ if (isset($_GET['delete'])) {
                         WHEN 'Treasurer' THEN 4
                         WHEN 'Auditor' THEN 5
                         WHEN 'PRO' THEN 6
-                        ELSE 7
+                        ELSE 99
                     END;");
 
                     while ($row = $result->fetch_assoc()) {
@@ -134,8 +131,13 @@ if (isset($_GET['delete'])) {
                         <td>{$row['position_id']}</td>
                         <td>{$row['position_name']}</td>
                         <td>
-                            <a href='?edit={$row['position_id']}' class='edit-btn'>Modify</a> |
-                            <a href='#' class='delete-btn text-danger' data-id='{$row['position_id']}' data-toggle='modal' data-target='#deleteModal'>Delete</a>
+                            <a href='#' 
+                            class='edit-btn text-info' 
+                            data-bs-toggle='modal' 
+                            data-bs-target='#editPositionModal' 
+                            data-id='{$row['position_id']}'
+                            data-name='" . htmlspecialchars($row['position_name'], ENT_QUOTES) . "'> Modify </a> |
+                            <a href='#' class='delete-btn text-danger' data-id='{$row['position_id']}' data-bs-toggle='modal' data-bs-target='#deleteModal'>Delete</a>
                         </td>
                         </tr>";
                     }
@@ -145,31 +147,11 @@ if (isset($_GET['delete'])) {
 
             <form method="POST" class="add-form mt-4" id="addPositionForm">
                 <input type="text" name="position_name" id="position_name" placeholder="Enter new position" required />
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Add</button>
+                <button type="submit" class="btn btn-primary">Add</button>
                 <input type="hidden" name="add_position" value="1">
             </form>
 
         </main>
-    </div>
-
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-modal" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Commit Add?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Are you sure you want to add this new position?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-                    <button type="submit" class="btn btn-primary" form="addPositionForm">Confirm</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
@@ -177,54 +159,78 @@ if (isset($_GET['delete'])) {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Confirm Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     Are you sure you want to delete this position?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <a href="#" class="btn btn-danger" id="confirmDeleteBtn">Delete</a>
                 </div>
             </div>
         </div>
     </div>
 
+    <div class="modal fade" id="editPositionModal" tabindex="-1" role="dialog" aria-labelledby="editPositionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered custom-modal" role="document">
+            <div class="modal-content">
+                <form method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editPositionModalLabel">Edit Position</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="position_id" id="edit_position_id">
+                        <div class="form-group">
+                            <label for="edit_position_name">Position Name</label>
+                            <input type="text" class="form-control" name="new_position_name" id="edit_position_name" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" name="update_position" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
+                </div>
             </div>
-            <div class="modal-body">
-              Are you sure you want to logout?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
-            </div>
-          </div>
         </div>
-      </div>
+    </div>
+    
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const deleteButtons = document.querySelectorAll(".delete-btn");
-            const confirmDeleteBtn = document.getElementById("confirmDeleteBtn");
+            const editButtons = document.querySelectorAll(".edit-btn");
 
-            deleteButtons.forEach(button => {
+            editButtons.forEach(button => {
                 button.addEventListener("click", function() {
                     const id = this.getAttribute("data-id");
-                    confirmDeleteBtn.setAttribute("href", "?delete=" + id);
+                    const name = this.getAttribute("data-name");
+
+                    document.getElementById("edit_position_id").value = id;
+                    document.getElementById("edit_position_name").value = name;
                 });
             });
         });
     </script>
+
 </body>
 
 </html>

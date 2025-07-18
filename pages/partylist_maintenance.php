@@ -11,9 +11,10 @@ if (isset($_SESSION['partylist_added'])) {
     unset($_SESSION['partylist_added']);
 }
 
-
 if (isset($_POST['add_partylist'])) {
     $partylistName = $_POST['partylist_name'];
+    $image = $_FILES['partylist_image']['name'] ?? '';
+    $imageTmp = $_FILES['partylist_image']['tmp_name'] ?? '';
 
     $targetDir = "../img/";
     $defaultImage = "your_logo_here.png";
@@ -24,16 +25,18 @@ if (isset($_POST['add_partylist'])) {
             $finalImage = $image;
         } else {
             $errorMessage = "Failed to upload image.";
-            $finalImage = $defaultImage; // fallback
+            $finalImage = $defaultImage;
         }
     } else {
-        $finalImage = $defaultImage; // if no file was uploaded
+        $finalImage = $defaultImage;
     }
 
     $stmt = $conn->prepare("INSERT INTO party_list (partylist_name, partylist_image, dateCreated) VALUES (?, ?, NOW())");
     $stmt->bind_param("ss", $partylistName, $finalImage);
     if ($stmt->execute()) {
         $_SESSION['partylist_added'] = true;
+        header("Location: partylist_maintenance.php"); // redirect after successful add
+        exit();
     }
 }
 
@@ -75,11 +78,9 @@ if (isset($_GET['delete'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Position Maintenance</title>
-    <link rel="stylesheet" href="../styles/partylist_maintenance.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="../styles/position_maintenance.css" />
 </head>
 
 <body>
@@ -149,19 +150,7 @@ if (isset($_GET['delete'])) {
                         <td>{$row['partylist_id']}</td>
                         <td><img src='" . htmlspecialchars($imagePath) . "' width='60' height='60' style='object-fit: cover; border-radius: 5px;' alt='Partylist Image'></td>
                         <td>" . htmlspecialchars($row['partylist_name']) . "</td>
-                        <td>
-                            <a href='#' 
-                            class='edit-btn text-info' 
-                            data-toggle='modal' 
-                            data-target='#editModal' 
-                            data-id='" . $row['partylist_id'] . "' 
-                            data-name='" . htmlspecialchars($row['partylist_name'], ENT_QUOTES) . "'> Modify </a> |
-                            <a href='#' 
-                            class='delete-btn text-danger' 
-                            data-toggle='modal' 
-                            data-target='#deleteModal' 
-                            data-id='" . $row['partylist_id'] . "'>Delete</a>
-                        </td>
+                        <td><a href='#' class='edit-btn text-info' data-bs-toggle='modal' data-bs-target='#editModal' data-id='" . htmlspecialchars($row['partylist_id']) . "' data-name='" . htmlspecialchars($row['partylist_name']) . "' data-image='" . htmlspecialchars($row['partylist_image']) . "'><i class='fas fa-edit'></i> Modify </a> | <a href='#' class='delete-btn text-danger' data-bs-toggle='modal' data-bs-target='#deleteModal' data-id='" . htmlspecialchars($row['partylist_id']) . "'>Delete</a></td>
                     </tr>";
                     }
                     ?>
@@ -172,109 +161,82 @@ if (isset($_GET['delete'])) {
                 id="addPartylistForm"
                 class="add-form mt-4 <?= isset($_SESSION['partylist_added']) ? 'added-success' : '' ?>">
                 <input type="text" name="partylist_name" placeholder="Enter partylist name" required />
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">Add</button>
+                <button type="submit" class="btn btn-primary">Add</button>
                 <input type="hidden" name="add_partylist" value="1">
             </form>
 
-            
         </main>
     </div>
 
     <!-- MODAL SECTION -->
-    <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-modal" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Commit Add?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Are you sure you want to add this new partylist?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-                    <button type="submit" class="btn btn-primary" form="addPartylistForm">Confirm</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
+     <!-- Delete Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered custom-modal" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Confirm Deletion</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Are you sure you want to delete this partylist?
+                    Are you sure you want to delete this position?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <a href="#" class="btn btn-danger" id="confirmDeleteBtn">Delete</a>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered custom-modal" role="document">
+    <!-- Edit Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form method="POST" enctype="multipart/form-data">
+                <form method="post" enctype="multipart/form-data">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="editModalLabel">Edit Partylist</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h5 class="modal-title" id="editModalLabel">Edit Position</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="partylist_id" id="edit_partylist_id">
+                        <input type="hidden" name="partylist_id" id="edit-id">
                         <div class="form-group">
-                            <label for="new_partylist_name">Partylist Name</label>
-                            <input type="text" class="form-control" name="new_partylist_name" id="edit_partylist_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="new_partylist_image">Partylist Logo</label>
-                            <input type="file" class="form-control-file" name="new_partylist_image" id="edit_partylist_image" accept="image/*">
+                            <label for="edit-name">Position Name</label>
+                            <input type="text" class="form-control" id="edit-name" name="new_partylist_name" required>
+                            <input type="file" name="new_partylist_image" class="form-control mt-2" accept="image/*">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                        <button type="submit" name="update_partylist" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary" name="update_partylist">Save Changes</button>
                     </div>
                 </form>
+
             </div>
         </div>
-
     </div>
+
     <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to logout?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
+                </div>
             </div>
-            <div class="modal-body">
-              Are you sure you want to logout?
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <a href="./admin-logout.php" class="btn btn-primary">Yes, Logout</a>
-            </div>
-          </div>
         </div>
-      </div>
-
+    </div>
 
     <!-- END OF MODAL SECTION -->
-    <!-- JAVA SCRIPT SECTION -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
+    <!-- JAVA SCRIPT SECTION -->
+    <!-- DELETE BUTTON LOGIC -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const deleteButtons = document.querySelectorAll(".delete-btn");
@@ -289,38 +251,18 @@ if (isset($_GET['delete'])) {
         });
     </script>
 
+    <!-- EDIT MODAL SETUP -->
     <script>
-        $('#editModal').on('show.bs.modal', function(event) {
-            const button = $(event.relatedTarget);
-            const id = button.data('id');
-            const name = button.data('name');
+        const editModal = document.getElementById('editModal');
+        editModal.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const id = button.getAttribute('data-id');
+            const name = button.getAttribute('data-name');
 
-            const modal = $(this);
-            modal.find('#edit_partylist_id').val(id);
-            modal.find('#edit_partylist_name').val(name);
+            document.getElementById('edit-id').value = id;
+            document.getElementById('edit-name').value = name;
         });
     </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const form = document.querySelector(".add-form.added-success");
-
-            if (form) {
-                const buttons = form.querySelectorAll("button, input[type='submit']");
-                buttons.forEach(btn => btn.style.visibility = "hidden");
-
-                setTimeout(() => {
-                    form.classList.remove("added-success");
-                    buttons.forEach(btn => btn.style.visibility = "visible");
-                    const url = new URL(window.location);
-                    url.searchParams.delete("added");
-                    window.history.replaceState({}, document.title, url);
-
-                }, 1000);
-            }
-        });
-    </script>
-
     <!-- END OF JAVASCRIPT SECTION -->
 
 </body>

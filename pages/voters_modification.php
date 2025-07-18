@@ -3,7 +3,8 @@ session_start();
 include("../database/connection.php");
 /** @var mysqli $conn */
 
-$id_number = $_GET['edit'];
+$id_number = isset($_GET['edit']) ? $_GET['edit'] : (isset($_GET['revert']) ? $_GET['revert'] : null);
+
 
 $stmt = "SELECT * FROM user_information WHERE id_number = ?";
 $stmt = $conn->prepare($stmt);
@@ -43,12 +44,11 @@ if (isset($_POST['save'])) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Voting Dashboard</title>
-  <link rel="stylesheet" href="../styles/voters_modification-style.css" />
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  wa<link rel="stylesheet" href="../styles/voters_modification-style.css" />
 </head>
 
 <body>
@@ -103,7 +103,7 @@ if (isset($_POST['save'])) {
                 </td>
                 <td>
                 <a href="#" class="save-btn" data-toggle="modal" data-target="#saveModal">Save</a> |
-                <a href="#" class="revert-btn" data-id="<?=$result['id_number']?>" data-toggle="modal" data-target="#revertModal">Revert</a>
+                <a href="#" class="revert-btn" data-toggle="modal" data-target="#revertModal">Revert</a>
 
                 </td>
             </tr>
@@ -140,7 +140,7 @@ if (isset($_POST['save'])) {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <a id="confirmRevertBtn" href="./voters_maintenance.php" class="btn btn-danger">Revert</a>
+        <a href="./voters_maintenance.php" class="btn btn-danger">Revert</a>
       </div>
     </div>
   </div>

@@ -7,8 +7,12 @@
   font-family: 'Poppins', sans-serif;
 }
 
-body {
-  background: #136bdd;
+html body {
+  font-family: 'Poppins', sans-serif;
+  background-image: url('../img/background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
   color: #333;
 }
 
