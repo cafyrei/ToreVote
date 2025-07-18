@@ -67,6 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute()) {
           $message = "Candidate added successfully.";
+          header('Location: candidates_maintenance.php');
         } else {
           $message = "Execute failed: " . $stmt->error;
         }
@@ -85,13 +86,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Add Candidate | Admin</title>
-  
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="../styles/add-candidate.css" />
-    <link rel="shortcut icon" href="../img/ToreVote.png" type="image/x-icon">
-
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="../styles/add-candidate.css" />
+  <link rel="shortcut icon" href="../img/ToreVote.png" type="image/x-icon">
 </head>
 
 <body>
@@ -160,11 +158,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="file" name="photo" id="photo" accept="image/*" required />
           </div>
 
-          <button type="submit" class="submit-btn">Add Candidate</button>
+          <div class="card-footer d-flex justify-content-end gap-2">
+              <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#revertModal">Back</button>
+              <button type="submit" class="submit-btn">Add Candidate</button>
+            </div>
+
+          <div class="modal fade" id="revertModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Return</h5>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to return?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <a href="./candidates_maintenance.php" class="btn btn-danger">Back</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
         </form>
       </section>
 
-            <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+      <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -183,4 +203,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
   </div>
 </body>
+
 </html>
