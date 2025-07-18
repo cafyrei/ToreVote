@@ -5,7 +5,6 @@ include("../database/connection.php");
 
 $id_number = isset($_GET['edit']) ? $_GET['edit'] : (isset($_GET['revert']) ? $_GET['revert'] : null);
 
-
 $stmt = "SELECT * FROM user_information WHERE id_number = ?";
 $stmt = $conn->prepare($stmt);
 $stmt->bind_param("i", $id_number);
@@ -45,10 +44,10 @@ if (isset($_POST['save'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Voting Dashboard</title>
 
-
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="../styles/voters_modification-style.css" />
+
   <link rel="shortcut icon" href="../img/ToreVote.png" type="image/x-icon">
 </head>
 
@@ -56,8 +55,8 @@ if (isset($_POST['save'])) {
   <div class="dashboard">
     <!-- sidebar -->
     <aside class="sidebar">
-      <h2 class="logo">VotingSys</h2>
-      <h3 class="logo">Administrator</h3>
+      <img src="../img/logo2.png" alt="VotingSys Logo" style="width: 80px; height: auto; display: block; margin: 0 auto;" />
+      <h5 class="admin" style="margin-top: 20px; text-align: center;">Administrator</h5>
         <nav>
                 <a href="./dashboard.php">Dashboard</a>
                 <a href="./partylist_maintenance.php">Partylist Maintenance</a>
@@ -71,7 +70,8 @@ if (isset($_POST['save'])) {
     <!-- main -->
     <main class="main-content">
       <header class="topbar">
-        <h1>Update Voter's Information</h1>
+        <h1 class="voter-title">Update Voter's Information</h1>
+         <hr style="margin: 10px 0; border-top: 4px solid #1e3a8a;" />
       </header>
       <form method="POST">
       <table border="0">

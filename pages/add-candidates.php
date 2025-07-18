@@ -1,7 +1,8 @@
 <?php
 include("../database/connection.php");
-$message = "";
 /** @var mysqli $conn */
+
+$message = "";
 
 // Fetch positions
 $positions = [];
@@ -14,7 +15,7 @@ $posQuery = "SELECT DISTINCT position_name FROM positions ORDER BY
     WHEN 'Auditor' THEN 5
     WHEN 'PRO' THEN 6
     ELSE 7
-  END;";
+  END";
 
 $posResult = $conn->query($posQuery);
 if ($posResult && $posResult->num_rows > 0) {
@@ -23,6 +24,7 @@ if ($posResult && $posResult->num_rows > 0) {
   }
 }
 
+// Fetch partylists
 $partylists = [];
 $partylist_Query = "SELECT partylist_id, partylist_name FROM party_list ORDER BY partylist_name ASC";
 $partylist_Results = $conn->query($partylist_Query);
@@ -33,35 +35,47 @@ if ($partylist_Results && $partylist_Results->num_rows > 0) {
   }
 }
 
+// Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $name = $_POST['candidate_name'];
-  $position = $_POST['position'];
-  $platform = $_POST['platform'];
+  $name = trim($_POST['candidate_name']);
+  $position = trim($_POST['position']);
+  $platform = trim($_POST['platform']);
+  $partylist_id = $_POST['partylist_id'];
 
-  $uploadDir = "../img/";
-  $photoName = uniqid() . '_' . basename($_FILES["photo"]["name"]);
-  $targetFile = $uploadDir . $photoName;
+  $checkSql = "SELECT * FROM candidates WHERE position = ? AND partylist = ?";
+  $checkStmt = $conn->prepare($checkSql);
+  $checkStmt->bind_param("ss", $position, $partylist_id);
+  $checkStmt->execute();
+  $checkResult = $checkStmt->get_result();
 
-  if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFile)) {
-    $sql = "INSERT INTO candidates (candidate_name, position, platform, photo) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-
-    if (!$stmt) {
-      $message = "Prepare failed: " . $conn->error;
-    } else {
-      $stmt->bind_param("ssss", $name, $position, $platform, $photoName);
-
-      if ($stmt->execute()) {
-        $message = "Candidate added successfully!";
-      } else {
-        $message = "Execute failed: " . $stmt->error;
-      }
-    }
+  if ($checkResult->num_rows > 0) {
+    $message = "Only one candidate per position is allowed for each partylist.";
   } else {
-    $message = "Error uploading image.";
+    // Handle file upload
+    $uploadDir = "../img/";
+    $photoName = uniqid() . '_' . basename($_FILES["photo"]["name"]);
+    $targetFile = $uploadDir . $photoName;
+
+    if (move_uploaded_file($_FILES["photo"]["tmp_name"], $targetFile)) {
+      $sql = "INSERT INTO candidates (candidate_name, position, platform, photo, partylist) VALUES (?, ?, ?, ?, ?)";
+      $stmt = $conn->prepare($sql);
+
+      if (!$stmt) {
+        $message = "Prepare failed: " . $conn->error;
+      } else {
+        $stmt->bind_param("sssss", $name, $position, $platform, $photoName, $partylist_id);
+
+        if ($stmt->execute()) {
+          $message = "Candidate added successfully.";
+        } else {
+          $message = "Execute failed: " . $stmt->error;
+        }
+      }
+    } else {
+      $message = "Error uploading image.";
+    }
   }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -83,8 +97,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
   <div class="dashboard">
     <aside class="sidebar">
-      <h2 class="logo">VotingSys</h2>
-      <h5 class="logo">Administrator</h5>
+      <img src="../img/logo2.png" alt="VotingSys Logo" style="width: 80px; height: auto; display: block; margin: 0 auto;" />
+      <h5 class="admin" style="margin-top: 20px; text-align: center;">Administrator</h5>
       <nav>
         <a href="./dashboard.php">Dashboard</a>
         <a href=" ./partylist_maintenance.php">Partylist Maintenance</a>

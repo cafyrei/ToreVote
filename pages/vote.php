@@ -44,12 +44,17 @@ if ($userRow = $result->fetch_assoc()) {
     <!-- main -->
     <main class="main-content">
       <?php if (!$hasVoted) { ?>
+
+        <hr style="margin: 10px 0; border-top: 4px solid #2b3b68ff;" />
+
         <header class="topbar">
           <h1>Cast Your Vote</h1>
           <p>Select your preferred candidate for each position.</p>
         </header>
 
-        <form id="vote-form" method="POST" action="submit_vote.php">
+        <hr style="margin: 10px 0; border-top: 4px solid #2b3b68ff;" />
+
+        <form class="mt-4" id="vote-form" method="POST" action="submit_vote.php">
           <?php
           $sql = "SELECT DISTINCT position
                   FROM candidates
@@ -59,6 +64,8 @@ if ($userRow = $result->fetch_assoc()) {
                     WHEN 'Secretary' THEN 3
                     WHEN 'Treasurer' THEN 4
                     WHEN 'Auditor' THEN 5
+                    WHEN 'PRO' THEN 6
+                    ELSE 99
                   END";
           $positions_result = mysqli_query($conn, $sql);
 
@@ -70,7 +77,10 @@ if ($userRow = $result->fetch_assoc()) {
             echo "<h2 class='position-title'>" . htmlspecialchars($position) . "</h2>";
             echo "<div class='candidate-list'>";
 
-            $stmt = $conn->prepare("SELECT * FROM candidates WHERE position = ?");
+            $stmt = $conn->prepare("SELECT c.*, p.partylist_name 
+                        FROM candidates c 
+                        LEFT JOIN party_list p ON c.partylist = p.partylist_id 
+                        WHERE c.position = ?");
             $stmt->bind_param("s", $position);
             $stmt->execute();
             $candidates_result = $stmt->get_result();
@@ -78,18 +88,20 @@ if ($userRow = $result->fetch_assoc()) {
             while ($candidate = $candidates_result->fetch_assoc()) {
               $name = htmlspecialchars($candidate['candidate_name']);
               $platform = htmlspecialchars($candidate['platform']);
+              $partylist_name = htmlspecialchars($candidate['partylist_name']);
               $photo = "../img/" . $candidate['photo'];
               $id = $candidate['id_num'];
 
               echo "
-                <label class='candidate-card'>
-                  <input type='radio' name='{$position_lower}' value='{$id}' required />
-                  <div class='card-content'>
-                    <img src='{$photo}' alt='{$name}' />
-                    <h3>{$name}</h3>
-                    <p>{$platform}</p>
-                  </div>
-                </label>";
+              <label class='candidate-card'>
+                <input type='radio' name='{$position_lower}' value='{$id}' required />
+                <div class='card-content'>
+                  <img src='{$photo}' alt='{$name}' />
+                  <h3>{$name}</h3>
+                  <p style='color: #0056e0ff' ><strong>Partylist: </strong>{$partylist_name}</p>
+                  <p style='color: #1e293b' >{$platform}</p>
+                </div>
+              </label>";
             }
 
             echo "</div></section>";
@@ -99,22 +111,22 @@ if ($userRow = $result->fetch_assoc()) {
             <button type="button" class="logout-button" data-bs-toggle="modal" data-bs-target="#voteModal">Submit</button>
           </div>
 
-      <div class="modal fade" id="voteModal" tabindex="-1" aria-labelledby="voteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="voteModalLabel">Confirm Vote</h5>
-        </div>
-        <div class="modal-body">
-          Are you sure you want to finalize and submit your votes?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-          <button type="submit" class="btn btn-primary" form="vote-form">Yes, I Confirm</button>
-        </div>
-      </div>
-    </div>
-  </div>
+          <div class="modal fade" id="voteModal" tabindex="-1" aria-labelledby="voteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="voteModalLabel">Confirm Vote</h5>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to finalize and submit your votes?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary" form="vote-form">Yes, I Confirm</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
 
       <?php } else { ?>
@@ -146,4 +158,5 @@ if ($userRow = $result->fetch_assoc()) {
     </div>
   </div>
 </body>
+
 </html>

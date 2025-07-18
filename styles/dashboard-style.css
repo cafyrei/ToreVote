@@ -7,28 +7,22 @@
   font-family: 'Poppins', sans-serif;
 }
 
-body {
-  background-color: #f1f5f9;
+html body {
+  background-color: #f1f5f9 !important;
   color: #333;
 }
+
 
 .dashboard {
   display: flex;
   min-height: 100vh;
 }
 
-
 .sidebar {
   width: 220px;
   background-color: #1e3a8a;
   color: #fff;
   padding: 30px 20px;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 30px;
 }
 
 .sidebar nav a {

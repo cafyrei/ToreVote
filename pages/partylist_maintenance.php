@@ -87,8 +87,8 @@ if (isset($_GET['delete'])) {
 <body>
     <div class="dashboard">
         <aside class="sidebar">
-            <h2 class="logo">VotingSys</h2>
-            <h5 class="logo">Administrator</h5>
+            <img src="../img/logo2.png" alt="VotingSys Logo" style="width: 80px; height: auto; display: block; margin: 0 auto;" />
+            <h5 class="admin" style="margin-top: 20px; text-align: center;">Administrator</h5>
             <nav>
                 <a href="./dashboard.php">Dashboard</a>
                 <a href="./partylist_maintenance.php" class="active">Partylist Maintenance</a>
