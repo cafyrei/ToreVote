@@ -93,7 +93,7 @@ if (isset($_GET['delete'])) {
                 <a href="./dashboard.php">Dashboard</a>
                 <a href="./partylist_maintenance.php" class="active">Partylist Maintenance</a>
                 <a href="./position_maintenance.php">Position Maintenance</a>
-                <a href="./add-candidates.php">Candidate Maintenance</a>
+                <a href="./candidates_maintenance.php">Candidate Maintenance</a>
                 <a href="./voters_maintenance.php">Voters Maintenance</a>
                 <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
             </nav>

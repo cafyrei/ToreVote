@@ -89,7 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <a href="./dashboard.php">Dashboard</a>
         <a href=" ./partylist_maintenance.php">Partylist Maintenance</a>
         <a href="./position_maintenance.php">Position Maintenance</a>
-        <a href="./add-candidates.php" class="active">Candidate Maintenance</a>
+        <a href="#" class="active">Candidate Maintenance</a>
         <a href="./voters_maintenance.php">Voters Maintenance</a>
         <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
       </nav>

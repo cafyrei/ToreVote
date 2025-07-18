@@ -3,36 +3,27 @@ session_start();
 include("../database/connection.php");
 /** @var mysqli $conn */
 
-$id_number = isset($_GET['edit']) ? $_GET['edit'] : (isset($_GET['revert']) ? $_GET['revert'] : null);
+$id_num = isset($_GET['edit']) ? $_GET['edit'] : (isset($_GET['revert']) ? $_GET['revert'] : null);
 
 
-$stmt = "SELECT * FROM user_information WHERE id_number = ?";
+$stmt = "SELECT * FROM candidates WHERE id_num = ?";
 $stmt = $conn->prepare($stmt);
-$stmt->bind_param("i", $id_number);
+$stmt->bind_param("i", $id_num);
 $stmt->execute();
 $results = $stmt->get_result();
 $result = $results->fetch_assoc();
 
 if (isset($_POST['save'])) {
-    $id = intval($result['id_number']);
-    $first = $_POST['first_name'];
-    $middle = $_POST['middle_name'];
-    $last = $_POST['last_name'];
-    $gender = $_POST['gender'];
-    $email = $_POST['email'];
-    $username = $_POST['username'];
-    if (!empty($_POST['password'])) {
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    } else {
-        $password = $result['password'];
-    }
-    $hasVoted = intval($_POST['hasVoted']);
+    $id = intval($result['id_num']);
+    $full_name = $_POST['candidate_name'];
+    $platform = $_POST['platform'];
 
-    $updateStmt = $conn->prepare("UPDATE user_information SET first_name = ?, middle_name = ?, last_name = ?, gender = ?, email = ?, username = ?, password = ?, hasVoted = ? WHERE id_number = ?");
-    $updateStmt->bind_param("sssssssii", $first, $middle, $last, $gender, $email, $username, $password, $hasVoted, $id);
+
+    $updateStmt = $conn->prepare("UPDATE candidates SET candidate_name = ?, platform = ? WHERE id_num = ?");
+    $updateStmt->bind_param("ssi", $full_name, $platform, $id);
     $updateStmt->execute();
 
-    header("Location: voters_maintenance.php");
+    header("Location: candidates_maintenance.php");
     exit();
 }
 ?>
@@ -71,37 +62,20 @@ if (isset($_POST['save'])) {
     <!-- main -->
     <main class="main-content">
       <header class="topbar">
-        <h1>Update Voter's Information</h1>
+        <h1>Update Candidate's Information</h1>
       </header>
       <form method="POST">
       <table border="0">
         <tr>
             <th>ID</th>
-            <th>First Name</th>
-            <th>Middle Name</th>
-            <th>Last Name</th>
-            <th>Gender</th>
-            <th>Email</th>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Vote Status</th>
+            <th>Candidate Name</th>
+            <th>Platform</th>
             <th>Action</th>
         </tr>
             <tr>
-                <td><?=$result['id_number']?></td>
-                <td><input type="text" name="first_name" value="<?=htmlspecialchars($result['first_name'])?>"></td>
-                <td><input type="text" name="middle_name" value="<?=htmlspecialchars($result['middle_name'])?>"></td>
-                <td><input type="text" name="last_name" value="<?=htmlspecialchars($result['last_name'])?>"></td>
-                <td><input type="text" name="gender" value="<?=htmlspecialchars($result['gender'])?>"></td>
-                <td><input type="text" name="email" value="<?=htmlspecialchars($result['email'])?>"></td>
-                <td><input type="text" name="username" value="<?=htmlspecialchars($result['username'])?>"></td>
-                <td><input type="text" name="password" value="<?=htmlspecialchars($result['password'])?>"></td>
-                <td>
-                    <select name="hasVoted">
-                        <option value="1" <?= $result['hasVoted'] ? 'selected' : '' ?>>Voted</option>
-                        <option value="0" <?= !$result['hasVoted'] ? 'selected' : '' ?>>Not Voted</option>
-                    </select>
-                </td>
+                <td><?=$result['id_num']?></td>
+                <td><input type="text" name="candidate_name" value="<?=htmlspecialchars($result['candidate_name'])?>"></td>
+                <td><input type="text" name="platform" value="<?=htmlspecialchars($result['platform'])?>"></td>
                 <td>
                 <a href="#" class="save-btn" data-toggle="modal" data-target="#saveModal">Save</a> |
                 <a href="#" class="revert-btn" data-toggle="modal" data-target="#revertModal">Revert</a>
@@ -122,7 +96,7 @@ if (isset($_POST['save'])) {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="submit" href="./voters_maintenance.php" name='save'  class="btn btn-primary">Save</button>
+        <button type="submit" href="./candidates_maintenance.php" name='save'  class="btn btn-primary">Save</button>
       </div>
     </div>
   </div>
@@ -141,7 +115,7 @@ if (isset($_POST['save'])) {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <a href="./voters_maintenance.php" class="btn btn-danger">Revert</a>
+        <a href="./candidates_maintenance.php" class="btn btn-danger">Revert</a>
       </div>
     </div>
   </div>
