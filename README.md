@@ -1,4 +1,4 @@
-# 🗳️ Tore Vote (Voting System)
+# 🗳️ ToreVote (Voting System)
 
 > **📘 Project Title:**  : ToreVote
 > **📌 Course:** Project : Application Development and Emerging Technologies  
