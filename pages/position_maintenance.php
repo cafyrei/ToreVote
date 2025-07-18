@@ -61,19 +61,21 @@ if (isset($_GET['delete'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Position Maintenance</title>
-    <link rel="stylesheet" href="../styles/position_maintenance.css" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+    </script><link rel="stylesheet" href="../styles/position_maintenance.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+     
 
 </head>
 
 <body>
     <div class="dashboard">
         <aside class="sidebar">
-            <h2 class="logo">VotingSys</h2>
-            <h5 class="logo">Administrator</h5>
+            <img src="../img/logo2.png" alt="VotingSys Logo" style="width: 80px; height: auto; display: block; margin: 0 auto;" />
+            <h5 class="admin" style="margin-top: 20px; text-align: center;">Administrator</h5>
             <nav>
                 <a href="./dashboard.php">Dashboard</a>
                 <a href="./partylist_maintenance.php">Partylist Maintenance</a>
@@ -85,7 +87,7 @@ if (isset($_GET['delete'])) {
         </aside>
 
         <main class="main-content">
-            <h1>Position Maintenance</h1>
+            <h1 class="h1" style="text-align: left; font-size: 40px;">Position Maintenance</h1> 
 
             <hr style="margin: 10px 0; border-top: 4px solid #1e3a8a;" />
 

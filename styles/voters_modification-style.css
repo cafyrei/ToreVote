@@ -28,9 +28,9 @@ body {
   font-size: 24px;
 }
 
-.logo {
-  font-size: 20px;
-  margin-bottom: 30px;
+.admin {
+  margin-top: 20px;
+  text-align: center;
 }
 
 .sidebar nav a {
@@ -61,9 +61,6 @@ body {
   }
 }
 
-.h1{
-    text-align: center;
-}
 .main-content {
   padding: 30px;
   flex: 1;
@@ -72,9 +69,11 @@ body {
 h1 {
   font-size: 28px;
   margin-bottom: 20px;
-  color: #1e3a8a;
+  color: black !important;
 }
-
+.voter-title {
+  color: black;
+}
 .add-form, .edit-form {
   margin-bottom: 30px;
 }

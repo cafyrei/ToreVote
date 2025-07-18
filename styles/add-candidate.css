@@ -4,11 +4,12 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
   background-color: #f1f5f9;
+  color: #333;
 }
 
 .dashboard {
@@ -20,14 +21,14 @@ body {
 .sidebar {
   width: 220px;
   background-color: #1e3a8a;
-  color: white;
+  color: #fff;
   padding: 30px 20px;
+  font-size: 16px; /* Ensures consistent font size */
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 30px;
+.admin {
+  margin-top: 20px;
+  text-align: center;
 }
 
 .sidebar nav a {
@@ -37,13 +38,14 @@ body {
   margin-bottom: 15px;
   padding: 10px;
   border-radius: 8px;
-  transition: 0.3s;
+  transition: 0.3s ease;
+  font-size: 16px; /* Matches dashboard */
 }
 
 .sidebar nav a:hover,
 .sidebar nav a.active {
-  background-color: #3b82f6;
-  color: white;
+  background-color: #3c83f6;
+  color: #fff;
 }
 
 /* Main Content */
@@ -52,10 +54,8 @@ body {
   padding: 30px;
 }
 
-.topbar h1 {
-  color: #1e293b;
-  font-size: 28px;
-  margin-bottom: 10px;
+.topbar {
+  margin-bottom: 30px;
 }
 
 .topbar p {

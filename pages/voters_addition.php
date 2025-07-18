@@ -35,7 +35,6 @@ if (isset($_POST['add'])) {
   <title>Voting Dashboard</title>
   <link rel="stylesheet" href="../styles/voters_modification-style.css" />
   <link rel="stylesheet" href="../styles/add_voter-style.css" />
-
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -46,8 +45,8 @@ if (isset($_POST['add'])) {
   <div class="dashboard">
     <!-- sidebar -->
     <aside class="sidebar">
-      <h2 class="logo">VotingSys</h2>
-      <h3 class="logo">Administrator</h3>
+      <img src="../img/logo2.png" alt="VotingSys Logo" style="width: 80px; height: auto; display: block; margin: 0 auto;" />
+      <h5 class="admin" style="margin-top: 20px; text-align: center;">Administrator</h5>
         <nav>
                 <a href="./dashboard.php">Dashboard</a>
                 <a href="./partylist_maintenance.php">Partylist Maintenance</a>
@@ -62,6 +61,7 @@ if (isset($_POST['add'])) {
     <main class="main-content">
       <header class="topbar">
         <h1>Add Voter</h1>
+        <hr style="margin: 10px 0; border-top: 4px solid #1e3a8a;" />
       </header>
  <div class="regis-wrapper">
     <div class="form-box">

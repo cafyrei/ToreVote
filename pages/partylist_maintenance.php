@@ -77,8 +77,6 @@ if (isset($_GET['delete'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Position Maintenance</title>
     <link rel="stylesheet" href="../styles/partylist_maintenance.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
@@ -86,8 +84,8 @@ if (isset($_GET['delete'])) {
 <body>
     <div class="dashboard">
         <aside class="sidebar">
-            <h2 class="logo">VotingSys</h2>
-            <h5 class="logo">Administrator</h5>
+            <img src="../img/logo2.png" alt="VotingSys Logo" style="width: 80px; height: auto; display: block; margin: 0 auto;" />
+            <h5 class="admin" style="margin-top: 20px; text-align: center;">Administrator</h5>
             <nav>
                 <a href="./dashboard.php">Dashboard</a>
                 <a href="./partylist_maintenance.php" class="active">Partylist Maintenance</a>
