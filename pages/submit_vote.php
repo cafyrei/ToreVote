@@ -12,7 +12,8 @@ if (!$id_number) {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
   foreach ($_POST as $position => $candidate_id) {
-    $stmt = $conn->prepare("UPDATE `candidates` SET `vote_count` =  `vote_count` + 1 WHERE `id_num` = ? AND `position` = ?");
+    $position = strtolower(str_replace(' ', '_', $position));
+    $stmt = $conn->prepare("UPDATE `candidates` SET `vote_count` =  `vote_count` + 1 WHERE `id_num` = ? AND REPLACE(LOWER(`position`), ' ', '_') = ?");
     $stmt->bind_param("is", $candidate_id, $position);
     $stmt->execute();
   }

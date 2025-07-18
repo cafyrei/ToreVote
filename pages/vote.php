@@ -94,7 +94,7 @@ if ($userRow = $result->fetch_assoc()) {
 
               echo "
               <label class='candidate-card'>
-                <input type='radio' name='{$position_lower}' value='{$id}' required />
+                <input type='radio' name='{$position_lower}' value='{$id}'/>
                 <div class='card-content'>
                   <img src='{$photo}' alt='{$name}' />
                   <h3>{$name}</h3>

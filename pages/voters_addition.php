@@ -58,6 +58,7 @@ if (isset($_POST['add'])) {
                 <a href="./candidates_maintenance.php">Candidate Maintenance</a>
                 <a href="./voters_maintenance.php" class="active">Voters Maintenance</a>
                 <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+                <a href="./clear-db.php">Clear Database</a>
             </nav>
     </aside>
 
@@ -137,6 +138,26 @@ if (isset($_POST['add'])) {
         </div>
         <!-- SUBMIT BUTTON -->
         <button type="submit" name="add">Add Voter</button>
+        <!-- BACK BUTTON -->
+        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#revertModal">Back</button>
+
+        <!-- BACK MODAL -->
+        <div class="modal fade" id="revertModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" style="color:black;">Return</h5>
+                </div>
+                <div class="modal-body" style="color:black;">
+                  Are you sure you want to return?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <a href="./voters_maintenance.php" class="btn btn-danger">Back</a>
+                </div>
+              </div>
+            </div>
+          </div>
       </form>
     </div>
   </div>

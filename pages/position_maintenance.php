@@ -78,6 +78,7 @@ if (isset($_GET['delete'])) {
                 <a href="./candidates_maintenance.php">Candidate Maintenance</a>
                 <a href="./voters_maintenance.php">Voters Maintenance</a>
                 <a href="./admin-logout.php" class="logout-button" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</a>
+                <a href="./clear-db.php">Clear Database</a>
             </nav>
         </aside>
 

@@ -13,9 +13,9 @@ if (isset($_GET['delete'])) {
 }
 
 if (isset($_POST['search'])) {
-  $searchq = strtolower($_POST['search']);
+  $searchq = trim(strtolower(str_replace(' ', '', $_POST['search'])));
   $searchq = "%$searchq%";
-  $query = "SELECT * FROM user_information WHERE LOWER(first_name) LIKE ?";
+  $query = "SELECT * FROM user_information WHERE REPLACE(LOWER(first_name), ' ', '') LIKE ?";
   $stmt = $conn->prepare($query);
   $stmt->bind_param("s", $searchq);
 } else {
