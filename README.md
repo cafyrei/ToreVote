@@ -1,6 +1,6 @@
 # 🗳️ ToreVote (Voting System)
 
-> **📘 Project Title:**  : ToreVote
+> **📘 Project Title:**  : ToreVote  
 > **📌 Course:** Project : Application Development and Emerging Technologies  
 > **🎓 Purpose:**        : Final Project Compliance  
 
