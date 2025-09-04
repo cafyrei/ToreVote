@@ -2,6 +2,8 @@
 
 # 🗳️ ToreVote (Voting System)
 
+This project aims to provide a secure and efficient platform for conducting **online elections**, specifically tailored for academic institutions or organizations. ToreVote ensures transparency, accessibility, and integrity of election results. The system is designed to be user-friendly for both administrators and voters, supporting real-time result monitoring and robust management of candidates, positions, and party lists.
+
 > **📘 Project Title:** : ToreVote  
 > **📌 Course:** Project : Application Development and Emerging Technologies  
 > **🎓 Purpose:** : Final Project Compliance
@@ -30,7 +32,68 @@ Built to facilitate student elections or similar voting scenarios with a user-fr
 
 ---
 
-## 🖊️ NOTE
+## 📁 File Directory Structure
+
+```
+VotingSys/                     # Root directory of the voting system
+├── README.md                  # Documentation file explaining project details, setup, and usage
+├── votingsysdb.sql            # SQL dump file used to set up the system's database
+│
+├── /screenshots/              # Contains screenshots of the system’s interfaces and features
+│   ├── user_login_ss.png      # Sample of voter login page
+│   ├── admin_login_ss.png     # Sample of admin login page
+│   ├── candidateMain_dashboard_ss.png  # Admin dashboard showing candidate management
+│   ├── admin_dashboard_ss.png # Main admin dashboard view
+│   ├── position_ss.png        # Position maintenance page (admin side)
+│   ├── voters_main_ss.png     # Voter maintenance dashboard (admin side)
+│   ├── clr_db_ss.png          # Screenshot of clear-database function
+│   ├── cast_ss.png            # Screenshot after a user casts their vote
+│   └── vote_ss.png            # Voting page interface for voters
+│
+├── /img                       # Stores system images, logos, and icons
+│   ├── logo.png               # Main system logo
+│   └── ... (other image files for UI)
+│
+├── /pages/                    # Core PHP files that power the voting system
+│   ├── add-candidates.php     # Admin page to add new candidates
+│   ├── admin-logout.php       # Handles admin logout
+│   ├── admin.php              # Admin login page
+│   ├── candidates_maintenance.php # Candidate management page
+│   ├── clear-db.php           # Clear database functionality with security code
+│   ├── dashboard.php          # Main admin dashboard
+│   ├── index.php              # Voter login page (system landing page)
+│   ├── logout.php             # Handles voter logout
+│   ├── partylist_maintenance.php # Admin page to manage party lists
+│   ├── position_maintenance.php  # Admin page to manage election positions
+│   ├── submit_vote.php        # Handles voter submissions to the database
+│   ├── vote.php               # Voting page where users cast their votes
+│   ├── voters_addition.php    # Admin tool to add voters manually
+│   ├── voters_maintenance.php # Admin page to manage voter accounts
+│   └── voters_modification.php # Admin page to update voter details
+│
+├── /database/                 # Database connection and config files
+│   └── connect.php            # Establishes MySQL database connection
+│
+├── /styles/                   # Contains all CSS files for styling the system
+│   ├── add_voter-style.css    # Styles for adding voters
+│   ├── add-candidate.css      # Styles for candidate forms
+│   ├── admin-style.css        # Styles for admin panel
+│   ├── candidate_modification-style.css # Candidate modification page styles
+│   ├── dashboard-style.css    # Styles for dashboard pages
+│   ├── login-style.css        # Styles for login pages (admin & voter)
+│   ├── partylist_maintenance.css # Styles for partylist maintenance
+│   ├── position_maintenance.css  # Styles for position maintenance
+│   ├── regis-style.css        # Styles for registration-related forms
+│   ├── results-style.css      # Styles for results page
+│   ├── vote-style.css         # Styles for voting page
+│   ├── voters_maintenance-style.css # Styles for voters maintenance
+│   └── voters_modification-style.css # Styles for modifying voter accounts
+     
+```
+
+**Note:** The actual directory may contain additional files and folders depending on further development and deployment requirements.
+
+---
 
 - The Database file can be found on the File itself
 
@@ -73,7 +136,37 @@ Built to facilitate student elections or similar voting scenarios with a user-fr
    ```bash
    import votingsysdb.sql
    ```
-
+3. **Configure Database Connection**  
+    ```bash
+    database/connect.php
+    ```
+   ***Update Database***
+   ```bash
+    $host = "localhost";
+    $user = "root";
+    $pass = "";
+    $db   = "torevote_db";
+    ``` 
+4. ***Start Local Server***
+    - Place VotingSys in your htdocs folder (for XAMPP).
+    - Start Apache and MySQL.
+5. ***Access the System***
+    - Go to:
+    ```bash
+    http://localhost/VotingSys/public/
+    ```
+    - Admin Login: 
+    ```bash
+    Email: admin@votesys.com
+    Password: admin123
+    ```
+    - Sample Voter Login:
+    ```bash
+    Please do Navigate to section : Voter Login Credentials
+    ```
+6. ***Ready to Use***
+    - Admins manage candidates, positions, and party lists.
+    - Voters log in, cast votes, and view results.
 ---
 
 ## 🖼️ System Images
@@ -129,9 +222,13 @@ Built to facilitate student elections or similar voting scenarios with a user-fr
         </tr>
 </table>
 
-## 👨‍💻 Developers
+---
 
-- **Rafhielle Allen Alcabaza**
-- **Sean Paul Nieves**
-- **Rovic Christopher Sarthou**
-- **Breindelle Vincent Ayuso**
+## 🧑‍💻 Team Members
+
+- **Backend Developer** : Rafhielle Allen Alcabaza
+- **Backend Developer** : Sean Paul Nieves
+- **UI/UX Developer** : Rovic Christopher Sarthou
+- **Paper Documentation** : Breindelle Vincent Ayuso
+
+> _"For Good Governance, Vote confidently"
