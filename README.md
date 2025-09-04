@@ -74,7 +74,11 @@ Built to facilitate student elections or similar voting scenarios with a user-fr
    import votingsysdb.sql
    ```
 
+---
+
 ## 🖼️ System Images
+
+- Below are some previews of the system’s key features, including user and admin interfaces, dashboards, and voting functionalities.
 
 <table>
         <tr>
