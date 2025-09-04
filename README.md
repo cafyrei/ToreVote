@@ -231,4 +231,6 @@ VotingSys/                     # Root directory of the voting system
 - **UI/UX Developer** : Rovic Christopher Sarthou
 - **Paper Documentation** : Breindelle Vincent Ayuso
 
+---
+
 > _"For Good Governance, Vote confidently"
