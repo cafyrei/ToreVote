@@ -1,6 +1,8 @@
+![Static Badge](https://img.shields.io/badge/DONE-%23009943?style=for-the-badge&logo=checkmarx&logoColor=%23FFF)
+
 # 🗳️ ToreVote (Voting System)
 
-> **📘 Project Title:**  : ToreVote
+> **📘 Project Title:**  : ToreVote  
 > **📌 Course:** Project : Application Development and Emerging Technologies  
 > **🎓 Purpose:**        : Final Project Compliance  
 
@@ -45,8 +47,14 @@ Built to facilitate student elections or similar voting scenarios with a user-fr
 - Submit votes with confirmation modal
 - Skip positions (optional voting)
 - Blocks re-voting after submission
-
+  
 ---
+## 🛠️ Tech Stack
+![Static Badge](https://img.shields.io/badge/PHP-%23777BB4?style=for-the-badge&logo=PHP&logoColor=FFF&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/phpMyAdmin-%236C78AF?style=for-the-badge&logo=phpmyadmin&logoColor=FFF&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/CSS-%23663399?style=for-the-badge&logo=css&logoColor=FFF&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/HTML-%23E34F26?style=for-the-badge&logo=html5&logoColor=FFF&logoSize=auto)
+![Static Badge](https://img.shields.io/badge/Bootstrap-%237952B3?style=for-the-badge&logo=bootstrap&logoColor=FFF&logoSize=auto)
 
 ## 🛠️ Setup Instructions
 
